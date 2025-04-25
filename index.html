@@ -150,9 +150,8 @@
     <section class="bg-gradient-primary-to-secondary-light mt5 md5" id="meetme">
         <div class="container px-5">
             <header>
-<!--                <h2 id="home-subtitle"> </h2>-->
+              <h2 id="home-subtitle"> </h2>-->
                 <!-- <span class="bi bi-list"></span> -->
-                    <h2 id="meetme-subtitle"><i class="bi bi-file-text-fill"></i>&nbsp;MEET ME</h2>
             </header>
             <div class="main-body" id="meetme-md"></div>
         </div>
@@ -236,6 +235,22 @@
             </div>
         </div>
     </footer>
+
+  <!-- 加载 meetme.md 并渲染 -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("meetme.md")
+        .then(response => response.text())
+        .then(mdText => {
+          const html = marked.parse(mdText);
+          document.getElementById("meetme-md").innerHTML = html;
+        })
+        .catch(error => {
+          console.error("加载 meetme.md 失败:", error);
+          document.getElementById("meetme-md").innerHTML = "<p>内容加载失败。</p>";
+        });
+    });
+  </script>
 
 </body>
 
