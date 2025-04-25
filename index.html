@@ -239,7 +239,7 @@
   <!-- 加载 meetme.md 并渲染 -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      fetch("meetme.md")
+      fetch("content/meetme.md")
         .then(response => response.text())
         .then(mdText => {
           const html = marked.parse(mdText);
