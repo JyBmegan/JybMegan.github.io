@@ -2,7 +2,7 @@
 
 const content_dir = 'contents/'
 const config_file = 'config.yml'
-const section_names = ['home', 'publications', 'awards']
+const section_names = ['top', 'meetme', 'publications', 'awards', 'blog', 'nightstand', 'map', 'download']
 
 
 window.addEventListener('DOMContentLoaded', event => {
@@ -46,6 +46,16 @@ window.addEventListener('DOMContentLoaded', event => {
         })
         .catch(error => console.log(error));
 
++  // —— 新增：用 meetme.md 填 subtitle ——  
++  fetch(content_dir + 'meetme.md')
++    .then(res => res.text())
++    .then(txt => {
++      // 只取第一行作为 subtitle
++      const firstLine = txt.split(/\r?\n/)[0]
++      document.getElementById('home-subtitle').innerText = firstLine
++      // 如果想要整段文本，改成 .innerText = txt
++    })
++    .catch(err => console.log('载入 subtitle 出错：', err))
 
     // Marked
     marked.use({ mangle: false, headerIds: false })
