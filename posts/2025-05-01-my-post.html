@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="post-title">Loading…</title>
+
+  <link rel="icon" href="../static/assets/favicon.ico" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="../static/css/styles.css" rel="stylesheet" />
+  <link href="../static/css/main.css" rel="stylesheet" />
+
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/js/marked.min.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm">
+    <div class="container px-5">
+      <a class="navbar-brand fw-bold" href="../index.html">Home</a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><i class="bi-list"></i></button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">TOP</a></li>
+          <!-- … -->
+          <li class="nav-item"><a class="nav-link" href="../blog.html">BLOG</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <section class="container py-5" style="margin-top:80px;">
+    <article id="post-content"></article>
+  </section>
+
+  <script>
+    // load MD and render
+    const mdPath = location.pathname.replace('.html', '.md');
+    fetch(mdPath)
+      .then(r => r.text())
+      .then(md => {
+        // set title from first MD heading
+        const firstLine = md.split('\n')[0].replace(/^#\s*/, '');
+        document.getElementById('post-title').innerText = firstLine;
+        // render into page
+        document.getElementById('post-content').innerHTML = marked.parse(md);
+      })
+      .catch(err => {
+        document.getElementById('post-content').innerHTML = '<p>Failed to load post.</p>';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
