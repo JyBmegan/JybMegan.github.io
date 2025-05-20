@@ -63,3 +63,24 @@ window.addEventListener('DOMContentLoaded', event => {
     })
 
 }); 
+// scripts.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. 把 Markdown 文件 fetch 下来
+  fetch('static/md/awards.md')
+    .then(res => {
+      if (!res.ok) throw new Error(`Markdown 加载失败：${res.status}`);
+      return res.text();
+    })
+    .then(mdText => {
+      // 2. 用 marked.js 把 Markdown 转成 HTML
+      //    如果你用的是 marked@2.x，请用 marked.parse；1.x 用 marked()
+      const html = marked.parse(mdText);
+      // 3. 插入到 id="awards-md" 的容器里
+      document.getElementById('awards-md').innerHTML = html;
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('awards-md').innerHTML = '<p>加载 Awards 内容失败</p>';
+    });
+});
