@@ -1,4 +1,4 @@
-<div id="mapContainer" style="width:100%;height:600px;margin:0 auto;"></div>
+<div id="map-container" style="width:100%;height:600px;margin:0 auto;"></div>
 <div id="gallery"      style="margin:20px auto;text-align:center;"></div>
 
 <script>
@@ -12,7 +12,7 @@ const visited = {
 };
 
 // 初始化 ECharts 实例
-const chart = echarts.init(document.getElementById('mapContainer'));
+const chart = echarts.init(document.getElementById('map-container'));
 
 // 保存状态到 localStorage
 function save() {
