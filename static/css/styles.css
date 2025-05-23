@@ -10934,4 +10934,35 @@ p, .lead, .text-body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+/* ========== 自定义字体覆盖区（放在 styles.css 最底部） ========== */
+
+/* ——— 全局正文 —— */
+body {
+  /* Windows 上叫 SimSun；macOS 上可兼容使用 Songti SC */
+  font-family: "SimSun", "Songti SC", serif, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+/* ——— 英文标题 —— */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ——— 段落正文 —— */
+p, .lead, .text-body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+/* 给 MEET ME 区块的主体往下推一点 */
+#meetme .main-body {
+  margin-top: 1.5rem;  /* 你也可以改成 1rem, 2rem，按效果调整 */
+}
+
+/* ========== 导航栏 Section Names 强制用 Helvetica ========== */
+.navbar-brand,
+.nav-link {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
 

@@ -67,7 +67,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. 把 Markdown 文件 fetch 下来
-  fetch('static/md/awards.md')
+  fetch('contents/awards.md')
     .then(res => {
       if (!res.ok) throw new Error(`Markdown 加载失败：${res.status}`);
       return res.text();
