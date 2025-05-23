@@ -1,5 +1,7 @@
 
 
+
+
 Hello! I’m Jiayu Bao (包家瑜), an inquisitive undergrad with a passion for different fields of pyschology (like Human-Computer Interaction and Visual Cognition). When I’m not elbow-deep in code or buried in research papers, you’ll find me chasing sunrise vistas on weekend hikes or framing the world through my camera lens. I thrive at the intersection of curiosity and creativity: whether it’s designing intuitive interfaces that enhance user experiences or strumming a new melody with generative music, I’m always exploring how small innovations can spark big ideas. Here’s a quick snapshot of what keeps me ticking:
 
 🎓 Education: B.Sc. in PSYCHOLOGY (GPA 3.9) with honors in Cognitive Psychology and HCI

@@ -10910,5 +10910,28 @@ footer a:hover, footer a:active, footer a:focus {
 }
 
 
+/* —— 全局正文（中英文） —— */
+body {
+  /* 中文走 Noto Sans SC，英文字母走 Helvetica Neue/Helvetica/Arial */
+  font-family: 'Noto Sans SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;      /* 可根据需要调整正文粗细 */
+  font-size: 1rem;       /* 默认正文字号 */
+  line-height: 1.5;      /* 行高 */
+}
+
+/* —— 英文标题 —— */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  /* 用 Josefin Sans（模拟 Futura） */
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* —— 如果你有专门的正文选择器，也可以显式声明 —— */
+p, .lead, .text-body {
+  /* 确保段落文字是 Helvetica 系列 */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
 
 
