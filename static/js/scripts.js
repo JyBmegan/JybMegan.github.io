@@ -132,99 +132,144 @@ window.addEventListener('DOMContentLoaded', event => {
         // …… 如有新省，继续在此添加
     };
 
-    /**
-     * 渲染全国（中国）地图
-     */
-    function renderChinaMap() {
-        currentLevel = 'country';
-        currentProvincePinyin = '';
+ // -----------------------------
+// 省份中文→拼音的映射表
+// （一定要和 map/province 目录下的文件名完全一致）
+// -----------------------------
+const provinceNameToPinyin = {
+    "北京市": "beijing",
+    "天津市": "tianjin",
+    "上海市": "shanghai",
+    "重庆市": "chongqing",
+    "河北省": "hebei",
+    "山西省": "shanxi",
+    "辽宁省": "liaoning",
+    "吉林省": "jilin",
+    "黑龙江省": "heilongjiang",
+    "江苏省": "jiangsu",
+    "浙江省": "zhejiang",
+    "安徽省": "anhui",
+    "福建省": "fujian",
+    "江西省": "jiangxi",
+    "山东省": "shandong",
+    "河南省": "henan",
+    "湖北省": "hubei",
+    "湖南省": "hunan",
+    "广东省": "guangdong",
+    "海南省": "hainan",
+    "四川省": "sichuan",
+    "贵州省": "guizhou",
+    "云南省": "yunnan",
+    "陕西省": "shanxi1",     // 举例：你的省级 JSON 文件若叫 shanxi1.json，就写 "shanxi1"
+    "甘肃省": "gansu",
+    "青海省": "qinghai",
+    "台湾省": "taiwan",
+    "内蒙古自治区": "neimenggu",
+    "广西壮族自治区": "guangxi",
+    "西藏自治区": "xizang",
+    "宁夏回族自治区": "ningxia",
+    "新疆维吾尔自治区": "xinjiang",
+    "香港特别行政区": "xianggang",
+    "澳门特别行政区": "aomen"
+    // …… 根据你自己的 map/province 目录增减
+};
 
-        // 隐藏“返回全国”按钮（如果你后面加了该按钮）
-        const backBtn = document.getElementById('back-to-china');
-        if (backBtn) backBtn.style.display = 'none';
+// -----------------------------
+// 渲染全国（中国）地图
+// -----------------------------
+function renderChinaMap() {
+    currentLevel = 'country';
+    currentProvincePinyin = '';
 
-        // 1. 找到 <div id="map-container">
-        const dom = document.getElementById('map-container');
-        if (!dom) {
-            console.error('找不到地图容器 map-container');
-            return;
-        }
+    // 隐藏“返回全国”按钮（如果存在）
+    const backBtn = document.getElementById('back-to-china');
+    if (backBtn) backBtn.style.display = 'none';
 
-        // 2. 如果已有实例，先销毁
-        if (chart) {
-            chart.dispose();
-        }
-        chart = echarts.init(dom);
-
-        // 3. 请求中国 GeoJSON
-        fetch('map/china.json')
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('请求中国 GeoJSON 失败，状态码 ' + res.status);
-                }
-                return res.json();
-            })
-            .then(geoJson => {
-                // 注册中国地图
-                echarts.registerMap('china', geoJson);
-
-                // 4. 构造省级 data 数组，给已上传图片的省份上色
-                const dataArr = geoJson.features.map(f => {
-                    const provinceNameCn = f.properties.name;   // e.g. "湖北省"
-                    const provincePinyin = f.properties.pinyin; // e.g. "hubei"
-                    return {
-                        name: provinceNameCn,
-                        value: uploadProvinceStatus[provincePinyin] ? 1 : 0,
-                        pinyin: provincePinyin
-                    };
-                });
-
-                // 5. 中国地图配置
-                const option = {
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: params => params.name
-                    },
-                    visualMap: {
-                        show: false,
-                        min: 0,
-                        max: 1,
-                        inRange: {
-                            color: ['#e0e0e0', '#ff7f50']  // 灰色 → 橙色
-                        }
-                    },
-                    series: [
-                        {
-                            name: '中国',
-                            type: 'map',
-                            map: 'china',
-                            roam: true,
-                            label: { show: false },
-                            emphasis: {
-                                label: { show: true, color: '#000' }
-                            },
-                            data: dataArr
-                        }
-                    ]
-                };
-                chart.setOption(option);
-
-                // 6. 点击省份事件：钻取到省级地图
-                chart.off('click');
-                chart.on('click', params => {
-                    if (currentLevel === 'country') {
-                        const provincePinyin = params.data.pinyin;   // e.g. "hubei"
-                        const provinceNameCn = params.name;          // e.g. "湖北省"
-                        if (provincePinyin) {
-                            renderProvinceMap(provincePinyin, provinceNameCn);
-                        }
-                    }
-                });
-            })
-            .catch(err => {
-                console.error('全国地图加载失败：', err);
-            });
+    // 找到地图容器
+    const dom = document.getElementById('map-container');
+    if (!dom) {
+        console.error('找不到地图容器 map-container');
+        return;
     }
+
+    // 如果已有 ECharts 实例，先销毁
+    if (chart) {
+        chart.dispose();
+    }
+    chart = echarts.init(dom);
+
+    // 请求中国 GeoJSON
+    fetch('map/china.json')
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('请求中国 GeoJSON 失败，状态码 ' + res.status);
+            }
+            return res.json();
+        })
+        .then(geoJson => {
+            // 注册中国地图
+            echarts.registerMap('china', geoJson);
+
+            // 构造省级 data 数组：用中文名找拼音，再决定是否上色
+            const dataArr = geoJson.features.map(f => {
+                const provinceNameCn = f.properties.name;         // e.g. "湖北省"
+                const provincePinyin = provinceNameToPinyin[provinceNameCn]; // e.g. "hubei" 或 undefined
+                return {
+                    name: provinceNameCn,
+                    // 如果你希望给已上传过的省份上色，就用拼音去查 uploadProvinceStatus
+                    value: uploadProvinceStatus[provincePinyin] ? 1 : 0,
+                    pinyin: provincePinyin    // 点击省份时，就从这里拿到拼音
+                };
+            });
+
+            // 配置全国地图
+            const option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: params => params.name
+                },
+                visualMap: {
+                    show: false,
+                    min: 0,
+                    max: 1,
+                    inRange: {
+                        color: ['#e0e0e0', '#ff7f50']  // 0→灰色，1→橙色
+                    }
+                },
+                series: [
+                    {
+                        name: '中国',
+                        type: 'map',
+                        map: 'china',
+                        roam: true,
+                        label: { show: false },
+                        emphasis: {
+                            label: { show: true, color: '#000' }
+                        },
+                        data: dataArr
+                    }
+                ]
+            };
+            chart.setOption(option);
+
+            // 点击省份：从 dataArr 中的 pinyin 拿到拼音，再 renderProvinceMap
+            chart.off('click');
+            chart.on('click', params => {
+                if (currentLevel === 'country') {
+                    const provincePinyin = params.data.pinyin;   // e.g. "hubei"
+                    const provinceNameCn = params.name;          // e.g. "湖北省"
+                    if (provincePinyin) {
+                        renderProvinceMap(provincePinyin, provinceNameCn);
+                    } else {
+                        console.warn(`${provinceNameCn} 在映射表中没有对应的拼音，无法加载省级地图`);
+                    }
+                }
+            });
+        })
+        .catch(err => {
+            console.error('全国地图加载失败：', err);
+        });
+}
 
     /**
      * 渲染某个省的地级市地图
