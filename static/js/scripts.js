@@ -49,14 +49,13 @@ window.addEventListener('DOMContentLoaded', event => {
 
     // Marked
     marked.use({ mangle: false, headerIds: false })
-	section_names.forEach((name, idx) => {
-    // 先决定要 fetch 哪个 markdown 文件
+section_names.forEach((name, idx) => {
+    // 先决定要 fetch 哪个 Markdown 文件
     let mdFileName;
     if (name === 'traveling') {
-        // 旅游板块用 map.md
+        // “旅游” 板块实际使用 contents/map.md
         mdFileName = 'map.md';
     } else {
-        // 其他板块仍然按 name + '.md'
         mdFileName = name + '.md';
     }
 
@@ -64,19 +63,37 @@ window.addEventListener('DOMContentLoaded', event => {
         .then(response => response.text())
         .then(markdown => {
             const html = marked.parse(markdown);
-            // 把解析出来的 HTML 插到对应的 div 里
-            document.getElementById(name + '-md').innerHTML = html;
 
-            // 如果恰好是 traveling 这个板块，就初始化地图
+            // —— 核心改动：  
+            // 如果是 traveling 板块，就插到 id="map-md"；否则还是插到 name + '-md'。
             if (name === 'traveling') {
+                const container = document.getElementById('map-md');
+                if (container) {
+                    container.innerHTML = html;
+                } else {
+                    console.error('找不到 <div id="map-md">，请确保 index.html 里存在这个元素');
+                }
+                // Markdown 内容插好之后，再初始化地图
                 initTravelMap();
+            } else {
+                // 其余板块按老逻辑插入
+                const container = document.getElementById(name + '-md');
+                if (container) {
+                    container.innerHTML = html;
+                } else {
+                    console.warn(`找不到 <div id="${name}-md"> （${name} 这一节）。`);
+                }
             }
         })
         .then(() => {
+            // MathJax 排版（如果你在 MD 里有公式）
             MathJax.typeset();
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            console.error('加载 Markdown 失败：', error);
+        });
 });
+
 
 
 }); 
@@ -102,34 +119,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// 注意：这个函数要放在上面 foreach 之外
 function initTravelMap() {
+    // 1. 找到 <div id="map-container">
     const dom = document.getElementById('map-container');
     if (!dom) {
         console.error('未找到地图容器 map-container');
         return;
     }
 
-    fetch('map/china.json')  // 这里假设你的 map 文件夹在 index.html 同级
+    // 2. 请求你的 GeoJSON（假设 map 文件夹就在 index.html 同级）
+    fetch('map/china.json')
         .then(res => {
-            if (!res.ok) throw new Error('请求中国 GeoJSON 失败，状态码 ' + res.status);
+            if (!res.ok) {
+                throw new Error('请求中国 GeoJSON 失败，状态码 ' + res.status);
+            }
             return res.json();
         })
         .then(geoJson => {
-            // 注册中国地图
+            // 3. 注册中国地图
             echarts.registerMap('china', geoJson);
 
-            // 初始化 ECharts 实例
+            // 4. 新建 ECharts 实例并渲染到 map-container
             const chart = echarts.init(dom);
 
-            // 模拟“哪些城市已上传图片”的状态对象
+            // 5. 模拟“哪些城市已上传图片”（后续你可以从后端/API 拿到真正数据）
             const uploadStatus = {
                 '北京市': true,
                 '上海市': true
-                // 你可以把这里的城市名换成你真正已经上传图片的城市
+                // 你可以把这里改成你自己已经上传过图片的城市名称
             };
 
-            // 构造 data 数组，根据 uploadStatus 决定 value=1 或 0
+            // 6. 构造 data 数组：有图片的城市 value = 1（橙色），否则 value = 0（灰色）
             const dataArr = geoJson.features.map(f => {
                 const name = f.properties.name; // 省/直辖市中文名
                 return {
@@ -138,7 +158,7 @@ function initTravelMap() {
                 };
             });
 
-            // 最简配置：灰色中国 + 1 的变色
+            // 7. 最简单的 Option：带 tooltip + visualMap + map series
             const option = {
                 tooltip: { trigger: 'item' },
                 visualMap: {
