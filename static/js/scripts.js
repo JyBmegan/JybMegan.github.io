@@ -319,6 +319,9 @@ function renderChinaMap() {
                 // 4. 构造地级市 data 数组
                 const cityDataArr = provinceGeo.features.map(f => {
                     const cityName = f.properties.name;     // e.g. "武汉市"
+                    // 新增：打印整个 properties 对象，来看看有哪些字段
+    console.log('[调试] 某个地级市的 properties：', props);
+    
                     const adcode = f.properties.adcode;     // e.g. "420100"
                     return {
                         name: cityName,
