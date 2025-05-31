@@ -168,11 +168,12 @@ function renderChinaMap() {
 
             // 4. 构造省级 data 数组，给已上传图片的省份上色
             const dataArr = geoJson.features.map(f => {
-                const provinceName = f.properties.name;   // e.g. "湖北省"
+                const provinceNameCn = f.properties.name;   // e.g. "湖北省"
+                const provincePinyin = f.properties.pinyin; // e.g. "hubei"
                 return {
-                    name: provinceName,
-                    value: uploadProvinceStatus[provinceName] ? 1 : 0,
-                    pinyin: f.properties.pinyin            // e.g. "hubei"
+                    name: provinceNameCn,
+                    value: uploadProvinceStatus[provincePinyin] ? 1 : 0,
+                    pinyin: provincePinyin
                 };
             });
 
@@ -210,10 +211,10 @@ function renderChinaMap() {
             chart.off('click');
             chart.on('click', params => {
                 if (currentLevel === 'country') {
-                    const provinceName = params.name;    // e.g. "湖北省"
-                    const pinyin = params.data.pinyin;   // e.g. "hubei"
-                    if (pinyin) {
-                        renderProvinceMap(pinyin, provinceName);
+                    const provincePinyin = params.data.pinyin;   // e.g. "hubei"
+                    const provinceNameCn = params.name;          // e.g. "湖北省"
+                    if (provincePinyin) {
+                        renderProvinceMap(provincePinyin, provinceNameCn);
                     }
                 }
             });
@@ -226,9 +227,9 @@ function renderChinaMap() {
 /**
  * 渲染某个省的地级市地图
  * @param {string} pinyin - 省份拼音，对应 map/province/{pinyin}.json
- * @param {string} provinceName - 省份中文名，例如“湖北省”
+ * @param {string} provinceNameCn - 省份中文名，例如“湖北省”
  */
-function renderProvinceMap(pinyin, provinceName) {
+function renderProvinceMap(pinyin, provinceNameCn) {
     currentLevel = 'province';
     currentProvincePinyin = pinyin;
 
@@ -266,22 +267,21 @@ function renderProvinceMap(pinyin, provinceName) {
             // 注册该省地图
             echarts.registerMap(pinyin, provinceGeo);
 
-// 4. 构造地级市 data 数组
-const cityDataArr = provinceGeo.features.map(f => {
-    const cityName = f.properties.name;     // 地级市中文名
-    const adcode = f.properties.adcode;     // 地级市编码
-    return {
-        name: cityName,
-        adcode: adcode,
-        value: uploadCityStatus[adcode] ? 1 : 0
-    };
-});
-
+            // 4. 构造地级市 data 数组
+            const cityDataArr = provinceGeo.features.map(f => {
+                const cityName = f.properties.name;     // e.g. "武汉市"
+                const adcode = f.properties.adcode;     // e.g. "420100"
+                return {
+                    name: cityName,
+                    adcode: adcode,
+                    value: uploadCityStatus[adcode] ? 1 : 0
+                };
+            });
 
             // 5. 省级地图配置
             const option = {
                 title: {
-                    text: provinceName,
+                    text: provinceNameCn,
                     left: 'center',
                     top: 10,
                     textStyle: { fontSize: 20 }
@@ -300,7 +300,7 @@ const cityDataArr = provinceGeo.features.map(f => {
                 },
                 series: [
                     {
-                        name: provinceName,
+                        name: provinceNameCn,
                         type: 'map',
                         map: pinyin,
                         roam: true,
