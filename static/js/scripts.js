@@ -372,8 +372,6 @@ function renderChinaMap() {
                     if (currentLevel === 'province') {
                         const adcode = params.data.adcode;   // e.g. "420100"
                         const cityName = params.name;        // e.g. "武汉市"
-                                // —— 新增这一行调试信息 ——  
-        console.log('[调试] 你点击的地级市：', cityName, '   adcode=', adcode);
         
                         if (uploadCityStatus[adcode]) {
                             openCityImageModal(adcode, pinyin, cityName);
