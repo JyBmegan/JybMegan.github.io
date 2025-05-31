@@ -266,17 +266,17 @@ function renderProvinceMap(pinyin, provinceName) {
             // 注册该省地图
             echarts.registerMap(pinyin, provinceGeo);
 
-            // 4. 构造地级市 data 数组
-const provinceName = f.properties.name;   // "湖北省"
-const provincePinyin = f.properties.pinyin; // "hubei"
-return {
-  name: provinceName,
-  // 改用拼音去查上传状态
-  value: uploadProvinceStatus[provincePinyin] ? 1 : 0,
-  pinyin: provincePinyin
-};
+// 4. 构造地级市 data 数组
+const cityDataArr = provinceGeo.features.map(f => {
+    const cityName = f.properties.name;     // 地级市中文名
+    const adcode = f.properties.adcode;     // 地级市编码
+    return {
+        name: cityName,
+        adcode: adcode,
+        value: uploadCityStatus[adcode] ? 1 : 0
+    };
+});
 
-            });
 
             // 5. 省级地图配置
             const option = {
