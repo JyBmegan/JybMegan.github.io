@@ -47,46 +47,54 @@ window.addEventListener('DOMContentLoaded', event => {
         .catch(error => console.log(error));
 
 
-    // Marked
-    marked.use({ mangle: false, headerIds: false })
+// -----------------------------
+// 从这里开始修改：section_names.forEach(...) 到 文件末尾
+// -----------------------------
+
+// 3. 用 marked.js 加载每个板块的 Markdown
+marked.use({ mangle: false, headerIds: false });
 section_names.forEach((name, idx) => {
     // 先决定要 fetch 哪个 Markdown 文件
     let mdFileName;
     if (name === 'traveling') {
-        // “旅游” 板块实际使用 contents/map.md
+        // “Traveling” 板块对应的是 contents/map.md
         mdFileName = 'map.md';
     } else {
         mdFileName = name + '.md';
     }
 
     fetch(content_dir + mdFileName)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`无法加载 ${mdFileName}，状态码 ${response.status}`);
+            }
+            return response.text();
+        })
         .then(markdown => {
             const html = marked.parse(markdown);
 
-            // —— 核心改动：  
-            // 如果是 traveling 板块，就插到 id="map-md"；否则还是插到 name + '-md'。
             if (name === 'traveling') {
+                // 把 map.md 渲染到 id="map-md" 里
                 const container = document.getElementById('map-md');
                 if (container) {
                     container.innerHTML = html;
                 } else {
-                    console.error('找不到 <div id="map-md">，请确保 index.html 里存在这个元素');
+                    console.error('找不到 <div id="map-md">，请检查 index.html');
                 }
-                // Markdown 内容插好之后，再初始化地图
+                // Markdown 内容插好后，初始化地图
                 initTravelMap();
             } else {
-                // 其余板块按老逻辑插入
+                // 其他板块仍然按 <div id="{name}-md"> 插入
                 const container = document.getElementById(name + '-md');
                 if (container) {
                     container.innerHTML = html;
                 } else {
-                    console.warn(`找不到 <div id="${name}-md"> （${name} 这一节）。`);
+                    console.warn(`找不到 <div id="${name}-md">，请检查 index.html`);
                 }
             }
         })
         .then(() => {
-            // MathJax 排版（如果你在 MD 里有公式）
+            // MathJax 渲染——如果你有公式需要排版
             MathJax.typeset();
         })
         .catch(error => {
@@ -94,40 +102,59 @@ section_names.forEach((name, idx) => {
         });
 });
 
+// -----------------------------
+// 以下为地图及图片弹层相关函数
+// -----------------------------
 
+// 全局变量：ECharts 实例、当前层级（country 或 province）、当前省拼音
+let chart = null;
+let currentLevel = 'country';
+let currentProvincePinyin = '';
 
-}); 
-// scripts.js
+// 模拟哪些地级市有图片（adcode → true/false）
+// 当你往 imgs/ 里新增新城市图片时，只要把对应的 adcode 加上 true 即可
+const uploadCityStatus = {
+    "420100": true,   // 武汉市
+    "440500": true,   // 汕头市
+    "445100": true,   // 潮州市
+    "530100": true,   //昆明市
+    // …… 如有新城市，继续在此添加
+};
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. 把 Markdown 文件 fetch 下来
-  fetch('contents/awards.md')
-    .then(res => {
-      if (!res.ok) throw new Error(`Markdown 加载失败：${res.status}`);
-      return res.text();
-    })
-    .then(mdText => {
-      // 2. 用 marked.js 把 Markdown 转成 HTML
-      //    如果你用的是 marked@2.x，请用 marked.parse；1.x 用 marked()
-      const html = marked.parse(mdText);
-      // 3. 插入到 id="awards-md" 的容器里
-      document.getElementById('awards-md').innerHTML = html;
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById('awards-md').innerHTML = '<p>加载 Awards 内容失败</p>';
-    });
-});
+// （可选）模拟哪些省有图片，如果要给省上色，可使用此对象。
+// 如果不需要省级上色，可将所有 value = false，或取消 visualMap。
+const uploadProvinceStatus = {
+    "hubei": true,
+    "guangdong": true,
+    "yunnan": true,
+    // …… 如有新省，继续在此添加
+};
 
-function initTravelMap() {
+/**
+ * 渲染全国（中国）地图
+ */
+function renderChinaMap() {
+    currentLevel = 'country';
+    currentProvincePinyin = '';
+
+    // 隐藏“返回全国”按钮（如果你后面加了该按钮）
+    const backBtn = document.getElementById('back-to-china');
+    if (backBtn) backBtn.style.display = 'none';
+
     // 1. 找到 <div id="map-container">
     const dom = document.getElementById('map-container');
     if (!dom) {
-        console.error('未找到地图容器 map-container');
+        console.error('找不到地图容器 map-container');
         return;
     }
 
-    // 2. 请求你的 GeoJSON（假设 map 文件夹就在 index.html 同级）
+    // 2. 如果已有实例，先销毁
+    if (chart) {
+        chart.dispose();
+    }
+    chart = echarts.init(dom);
+
+    // 3. 请求中国 GeoJSON
     fetch('map/china.json')
         .then(res => {
             if (!res.ok) {
@@ -136,52 +163,277 @@ function initTravelMap() {
             return res.json();
         })
         .then(geoJson => {
-            // 3. 注册中国地图
+            // 注册中国地图
             echarts.registerMap('china', geoJson);
 
-            // 4. 新建 ECharts 实例并渲染到 map-container
-            const chart = echarts.init(dom);
-
-            // 5. 模拟“哪些城市已上传图片”（后续你可以从后端/API 拿到真正数据）
-            const uploadStatus = {
-                '北京市': true,
-                '上海市': true
-                // 你可以把这里改成你自己已经上传过图片的城市名称
-            };
-
-            // 6. 构造 data 数组：有图片的城市 value = 1（橙色），否则 value = 0（灰色）
+            // 4. 构造省级 data 数组，给已上传图片的省份上色
             const dataArr = geoJson.features.map(f => {
-                const name = f.properties.name; // 省/直辖市中文名
+                const provinceName = f.properties.name;   // e.g. "湖北省"
                 return {
-                    name: name,
-                    value: uploadStatus[name] ? 1 : 0
+                    name: provinceName,
+                    value: uploadProvinceStatus[provinceName] ? 1 : 0,
+                    pinyin: f.properties.pinyin            // e.g. "hubei"
                 };
             });
 
-            // 7. 最简单的 Option：带 tooltip + visualMap + map series
+            // 5. 中国地图配置
             const option = {
-                tooltip: { trigger: 'item' },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: params => params.name
+                },
                 visualMap: {
                     show: false,
                     min: 0,
                     max: 1,
                     inRange: {
-                        color: ['#e0e0e0', '#ff7f50']
+                        color: ['#e0e0e0', '#ff7f50']  // 灰色 → 橙色
                     }
                 },
-                series: [{
-                    name: '中国',
-                    type: 'map',
-                    map: 'china',
-                    roam: true,
-                    label: { show: false },
-                    data: dataArr
-                }]
+                series: [
+                    {
+                        name: '中国',
+                        type: 'map',
+                        map: 'china',
+                        roam: true,
+                        label: { show: false },
+                        emphasis: {
+                            label: { show: true, color: '#000' }
+                        },
+                        data: dataArr
+                    }
+                ]
             };
-
             chart.setOption(option);
+
+            // 6. 点击省份事件：钻取到省级地图
+            chart.off('click');
+            chart.on('click', params => {
+                if (currentLevel === 'country') {
+                    const provinceName = params.name;    // e.g. "湖北省"
+                    const pinyin = params.data.pinyin;   // e.g. "hubei"
+                    if (pinyin) {
+                        renderProvinceMap(pinyin, provinceName);
+                    }
+                }
+            });
         })
         .catch(err => {
-            console.error('地图加载失败：', err);
+            console.error('全国地图加载失败：', err);
         });
 }
+
+/**
+ * 渲染某个省的地级市地图
+ * @param {string} pinyin - 省份拼音，对应 map/province/{pinyin}.json
+ * @param {string} provinceName - 省份中文名，例如“湖北省”
+ */
+function renderProvinceMap(pinyin, provinceName) {
+    currentLevel = 'province';
+    currentProvincePinyin = pinyin;
+
+    // 显示“返回全国”按钮（如果你加了该按钮）
+    const backBtn = document.getElementById('back-to-china');
+    if (backBtn) {
+        backBtn.style.display = 'inline-block';
+        backBtn.onclick = () => {
+            renderChinaMap();
+        };
+    }
+
+    // 1. 找到 <div id="map-container">
+    const dom = document.getElementById('map-container');
+    if (!dom) {
+        console.error('找不到地图容器 map-container');
+        return;
+    }
+
+    // 2. 销毁已有实例并重新初始化
+    if (chart) {
+        chart.dispose();
+    }
+    chart = echarts.init(dom);
+
+    // 3. 请求该省 GeoJSON
+    fetch(`map/province/${pinyin}.json`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`请求省级 GeoJSON 失败：map/province/${pinyin}.json`);
+            }
+            return res.json();
+        })
+        .then(provinceGeo => {
+            // 注册该省地图
+            echarts.registerMap(pinyin, provinceGeo);
+
+            // 4. 构造地级市 data 数组
+const provinceName = f.properties.name;   // "湖北省"
+const provincePinyin = f.properties.pinyin; // "hubei"
+return {
+  name: provinceName,
+  // 改用拼音去查上传状态
+  value: uploadProvinceStatus[provincePinyin] ? 1 : 0,
+  pinyin: provincePinyin
+};
+
+            });
+
+            // 5. 省级地图配置
+            const option = {
+                title: {
+                    text: provinceName,
+                    left: 'center',
+                    top: 10,
+                    textStyle: { fontSize: 20 }
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: params => params.name
+                },
+                visualMap: {
+                    show: false,
+                    min: 0,
+                    max: 1,
+                    inRange: {
+                        color: ['#e0e0e0', '#87cefa']  // 灰色 → 浅蓝
+                    }
+                },
+                series: [
+                    {
+                        name: provinceName,
+                        type: 'map',
+                        map: pinyin,
+                        roam: true,
+                        label: { show: false },
+                        emphasis: {
+                            label: { show: true, color: '#000' }
+                        },
+                        data: cityDataArr
+                    }
+                ]
+            };
+            chart.setOption(option);
+
+            // 6. 点击地级市事件：如果有图片就弹层查看，否则提示
+            chart.off('click');
+            chart.on('click', params => {
+                if (currentLevel === 'province') {
+                    const adcode = params.data.adcode;   // e.g. "420100"
+                    const cityName = params.name;        // e.g. "武汉市"
+                    if (uploadCityStatus[adcode]) {
+                        openCityImageModal(adcode, pinyin, cityName);
+                    } else {
+                        alert(`${cityName} 暂未上传任何图片`);
+                    }
+                }
+            });
+        })
+        .catch(err => {
+            console.error('省级地图加载失败：', err);
+        });
+}
+
+/**
+ * 弹出某地级市的所有图片
+ * @param {string} adcode - 地级市行政编码，例如 "420100"
+ * @param {string} provincePinyin - 该地级市所属省的拼音，例如 "hubei"
+ * @param {string} cityName - 地级市中文名，例如 "武汉市"
+ */
+function openCityImageModal(adcode, provincePinyin, cityName) {
+    // 1. 移除旧弹层（如果存在）
+    const oldCover = document.getElementById('city-image-modal');
+    if (oldCover) oldCover.remove();
+
+    // 2. 全屏半透明背景
+    const cover = document.createElement('div');
+    cover.id = 'city-image-modal';
+    Object.assign(cover.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        zIndex: '10000',
+        overflowY: 'auto',
+        padding: '40px 20px'
+    });
+
+    // 3. 白底弹层容器
+    const container = document.createElement('div');
+    Object.assign(container.style, {
+        maxWidth: '1000px',
+        margin: '0 auto',
+        backgroundColor: '#fff',
+        borderRadius: '8px',
+        padding: '20px'
+    });
+
+    // 4. 标题
+    const title = document.createElement('h2');
+    title.innerText = `${cityName} - 图片预览`;
+    title.style.marginBottom = '20px';
+    container.appendChild(title);
+
+    // 5. 图片容器（flex 布局）
+    const imgContainer = document.createElement('div');
+    Object.assign(imgContainer.style, {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '10px'
+    });
+
+    // 6. 按序号和后缀尝试加载图片：imgs/{adcode}_{provincePinyin}_{i}.{ext}
+    const exts = ['jpg', 'jpeg', 'png', 'gif'];
+    for (let i = 1; i <= 10; i++) {
+        exts.forEach(ext => {
+            const fileName = `${adcode}_${provincePinyin}_${i}.${ext}`;
+            const url = `imgs/${fileName}`;
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = `${cityName} 图片 ${i}`;
+            Object.assign(img.style, {
+                width: '200px',
+                height: 'auto',
+                borderRadius: '4px',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
+            });
+            img.onerror = () => img.remove();
+            imgContainer.appendChild(img);
+        });
+    }
+
+    // 7. 如果所有 <img> 都被移除，则显示“未找到任何图片”提示
+    setTimeout(() => {
+        if (!imgContainer.querySelector('img')) {
+            const noImg = document.createElement('p');
+            noImg.innerText = '未找到任何图片';
+            noImg.style.color = '#555';
+            imgContainer.appendChild(noImg);
+        }
+    }, 200);
+
+    container.appendChild(imgContainer);
+
+    // 8. 点击背景关闭弹层
+    cover.addEventListener('click', e => {
+        if (e.target === cover) {
+            cover.remove();
+        }
+    });
+
+    // 9. 组装并插入页面
+    cover.appendChild(container);
+    document.body.appendChild(cover);
+}
+
+/**
+ * 初始化地图：第一次加载“Traveling”板块时调用
+ */
+function initTravelMap() {
+    renderChinaMap();
+}
+
+// -----------------------------
+// 以上修改部分结束
+// -----------------------------
