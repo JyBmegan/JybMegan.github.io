@@ -211,16 +211,18 @@ function renderChinaMap() {
             echarts.registerMap('china', geoJson);
 
             // 构造省级 data 数组：用中文名找拼音，再决定是否上色
-            const dataArr = geoJson.features.map(f => {
-                const provinceNameCn = f.properties.name;         // e.g. "湖北省"
-                const provincePinyin = provinceNameToPinyin[provinceNameCn]; // e.g. "hubei" 或 undefined
-                return {
-                    name: provinceNameCn,
-                    // 如果你希望给已上传过的省份上色，就用拼音去查 uploadProvinceStatus
-                    value: uploadProvinceStatus[provincePinyin] ? 1 : 0,
-                    pinyin: provincePinyin    // 点击省份时，就从这里拿到拼音
-                };
-            });
+		const dataArr = geoJson.features.map(f => {
+    const provinceNameCn = f.properties.name;
+    // 临时打印一下，确认GeoJSON里写的是“云南”还是“云南省”
+    console.log('GeoJSON省份名：', provinceNameCn);
+    const provincePinyin = provinceNameToPinyin[provinceNameCn];
+    return {
+        name: provinceNameCn,
+        value: uploadProvinceStatus[provincePinyin] ? 1 : 0,
+        pinyin: provincePinyin
+    };
+});
+
 
             // 配置全国地图
             const option = {
