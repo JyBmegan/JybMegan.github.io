@@ -320,7 +320,7 @@ function renderChinaMap() {
                 const cityDataArr = provinceGeo.features.map(f => {
                     const cityName = f.properties.name;     // e.g. "武汉市"
                     // 新增：打印整个 properties 对象，来看看有哪些字段
-    console.log('[调试] 某个地级市的 properties：', props);
+    console.log('[调试] 某个地级市的 properties：',  f.properties);
     
                     const adcode = f.properties.adcode;     // e.g. "420100"
                     return {
