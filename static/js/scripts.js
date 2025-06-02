@@ -187,6 +187,11 @@ const visited = {
   cities:     JSON.parse(localStorage.getItem('visitedCities')    || '{}')
 };
 
+// 页面第一次加载时调用
+function initTravelMap() {
+  renderChinaMap();
+}
+
 // 1. 渲染中国地图，并同时创建一个省级地图实例
 function renderChinaMap() {
   // 标记当前层级、清空省拼音
@@ -267,11 +272,10 @@ function renderChinaMap() {
               .then(provGeo => {
                 // 注册省级地图
                 echarts.registerMap(provinceNameCn, provGeo);
-
-                // 用 provinceChart 渲染 Modal 里的省级地图
+                // 根据 visited.cities[provinceNameCn] 生成“已去过城市”高亮
                 const cityList = visited.cities[provinceNameCn] || [];
-                const opt2 = optionForMap(provinceNameCn, cityList, 'city');
-                provinceChart.setOption(opt2);
+                provinceChart.setOption(optionForMap(provinceNameCn, cityList, 'city'));
+
 
                 // 更新 Modal 标题、然后 show
                 document.getElementById('provinceMapModalLabel').innerText = `${provinceNameCn} 省级地图`;
@@ -324,29 +328,29 @@ function optionForMap(mapName, highlighted, level) {
 
 
 // 4. 图集数据：把 “省名小写–adcode” 对应的图片路径列出来
-const images = {
-  'hubei–420100': ['/imgs/420100_wuhan_1.jpg', '/imgs/420100_wuhan_2.png'],
-  'guangdong–440500': ['/imgs/440500_shantou_1.jpg', '/imgs/440500_shantou_2.png'],
-  'yunnan–530100': ['/imgs/530100_kunming_1.jpg']
-  // …根据需要把其它城市的照片路径补全
-};
+//const images = {
+//  'hubei–420100': ['/imgs/420100_wuhan_1.jpg', '/imgs/420100_wuhan_2.png'],
+//  'guangdong–440500': ['/imgs/440500_shantou_1.jpg', '/imgs/440500_shantou_2.png'],
+//  'guangdong–445100': ['/imgs/440500_shantou_1.jpg', '/imgs/440500_shantou_2.png'],
+//  'yunnan–530100': ['/imgs/530100_kunming_1.jpg']
+//  // …根据需要把其它城市的照片路径补全
+//};
 
 // 如果你想从“城市中文名”直接拿 adcode，可用下面这张表
 const cityCodeMap = {
   'Wuhan':   '420100',
   'Shantou': '440500',
+  'Chaozhou': '445100',
   'Kunming':'530100'
   // …按需继续补充
 };
 
-// 5. 点击省级地图里的某个城市时，调用此函数显示图集
+// （5）点击省级地图里的某个城市时，调用此函数显示照片
 function showGallery(provName, cityName) {
-  // 先拿 adcode
   const code = cityCodeMap[cityName] || cityName;
   const key = `${provName.toLowerCase()}–${code}`;
   const arr = images[key] || [];
 
-  // 把照片以 400px 宽度插到 #gallery
   const galleryEl = document.getElementById('gallery');
   galleryEl.innerHTML = arr.map(url =>
     `<img src="${url}" style="width:400px; margin:10px;
