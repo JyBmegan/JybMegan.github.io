@@ -1,10 +1,7 @@
-<!-- map.md 开头，直接写大标题 -->
-<h2 id="map-subtitle">
-  <i class="bi bi-geo-alt-fill"></i> TRAVELING
-</h2>
+
 
 <!-- 3. 给地图加个边框 -->
-<div id="map-container" style="width:100%;height:600px;margin:20px auto;
+<div id="map-container" style="width:80%;height:600px;margin:5px auto;
      border:2px solid #ccc; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>
 <div id="gallery"      style="margin:20px auto;text-align:center;"></div>

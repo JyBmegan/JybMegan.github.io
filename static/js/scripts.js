@@ -177,214 +177,192 @@ const provinceNameToPinyin = {
 // -----------------------------
 // 渲染全国（中国）地图
 // -----------------------------
+// ---------------------------------------------
+// 【替换内容开始】请把下面整个块复制，粘贴到 renderChinaMap()/renderProvinceMap 原来所在的位置
+// ---------------------------------------------
+
+// 0. 全局状态：记录已访问的省份和城市
+const visited = {
+  provinces: JSON.parse(localStorage.getItem('visitedProvinces') || '[]'),
+  cities:     JSON.parse(localStorage.getItem('visitedCities')    || '{}')
+};
+
+// 1. 渲染中国地图，并同时创建一个省级地图实例
 function renderChinaMap() {
-    currentLevel = 'country';
-    currentProvincePinyin = '';
+  // 标记当前层级、清空省拼音
+  currentLevel = 'country';
+  currentProvincePinyin = '';
 
-    // 隐藏“返回全国”按钮（如果存在）
-    const backBtn = document.getElementById('back-to-china');
-    if (backBtn) backBtn.style.display = 'none';
+  // 如果页面里有“返回全国”按钮，需要隐藏
+  const backBtn = document.getElementById('back-to-china');
+  if (backBtn) backBtn.style.display = 'none';
 
-    // 找到地图容器
-    const dom = document.getElementById('map-container');
-    if (!dom) {
-        console.error('找不到地图容器 map-container');
-        return;
-    }
+  // 找到主地图的容器
+  const dom = document.getElementById('map-container');
+  if (!dom) {
+    console.error('找不到地图容器 map-container');
+    return;
+  }
 
-    // 如果已有 ECharts 实例，先销毁
-    if (chart) {
-        chart.dispose();
-    }
-    chart = echarts.init(dom);
+  // 如果已有 ECharts 实例，先销毁
+  if (chart) {
+    chart.dispose();
+  }
+  // 初始化全国地图实例
+  chart = echarts.init(dom);
 
-    // 请求中国 GeoJSON
-    fetch('map/china.json')
-        .then(res => {
-            if (!res.ok) {
-                throw new Error('请求中国 GeoJSON 失败，状态码 ' + res.status);
-            }
-            return res.json();
-        })
-        .then(geoJson => {
-            // 注册中国地图
-            echarts.registerMap('china', geoJson);
+  // *** 新增：初始化省级地图实例，用于 Modal 弹窗 ***
+  const provDom = document.getElementById('province-map-container');
+  if (!provDom) {
+    console.error('找不到省级地图容器 province-map-container');
+  }
+  // 如果已有实例也先 dispose
+  if (provinceChart) {
+    provinceChart.dispose();
+  }
+  provinceChart = echarts.init(provDom);
 
-            // 构造省级 data 数组：用中文名找拼音，再决定是否上色
-		const dataArr = geoJson.features.map(f => {
-    const provinceNameCn = f.properties.name;
-    // 临时打印一下，确认GeoJSON里写的是“云南”还是“云南省”
-    console.log('GeoJSON省份名：', provinceNameCn);
-    const provincePinyin = provinceNameToPinyin[provinceNameCn];
-    return {
-        name: provinceNameCn,
-        value: uploadProvinceStatus[provincePinyin] ? 1 : 0,
-        pinyin: provincePinyin
-    };
-});
+  // 拉取全国 GeoJSON 并注册到 ECharts
+  fetch('/maps/china.json')
+    .then(res => {
+      if (!res.ok) throw new Error('请求中国 GeoJSON 失败，状态码 ' + res.status);
+      return res.json();
+    })
+    .then(geoJson => {
+      echarts.registerMap('china', geoJson);
 
+      // 根据 visited.provinces 生成高亮数据
+      const option = optionForMap('china', visited.provinces, 'province');
+      chart.setOption(option);
 
-            // 配置全国地图
-            const option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: params => params.name
-                },
-                visualMap: {
-                    show: false,
-                    min: 0,
-                    max: 1,
-                    inRange: {
-                        color: ['#e0e0e0', '#ff7f50']  // 0→灰色，1→橙色
-                    }
-                },
-                series: [
-                    {
-                        name: '中国',
-                        type: 'map',
-                        map: 'china',
-                        roam: true,
-                        label: { show: false },
-                        emphasis: {
-                            label: { show: true, color: '#000' }
-                        },
-                        data: dataArr
-                    }
-                ]
-            };
-            chart.setOption(option);
+      // 点击事件：如果当前是“全国地图”，则认为用户在点某个省
+      chart.off('click');
+      chart.on('click', params => {
+        const name = params.name;
+        if (!name) return;
 
-            // 点击省份：从 dataArr 中的 pinyin 拿到拼音，再 renderProvinceMap
-            chart.off('click');
-            chart.on('click', params => {
-                if (currentLevel === 'country') {
-                    const provincePinyin = params.data.pinyin;   // e.g. "hubei"
-                    const provinceNameCn = params.name;          // e.g. "湖北省"
-                    if (provincePinyin) {
-                        renderProvinceMap(provincePinyin, provinceNameCn);
-                    } else {
-                        console.warn(`${provinceNameCn} 在映射表中没有对应的拼音，无法加载省级地图`);
-                    }
-                }
-            });
-        })
-        .catch(err => {
-            console.error('全国地图加载失败：', err);
-        });
+        // 判断当前图层：series[0].map 是 'china' 还是某个省拼音
+        const currentMap = chart.getOption().series[0].map;
+        if (currentMap === 'china') {
+          // 用户点击了省份
+          const provincePinyin = params.data.pinyin; // 例如 "yunnan"
+          const provinceNameCn = name;               // 例如 "云南省"
+          if (provincePinyin) {
+            // 切换“已去过”状态
+            const pi = visited.provinces.indexOf(provinceNameCn);
+            if (pi >= 0) visited.provinces.splice(pi, 1);
+            else visited.provinces.push(provinceNameCn);
+            localStorage.setItem('visitedProvinces', JSON.stringify(visited.provinces));
+
+            // 先刷新全国地图高亮
+            const newOpt = optionForMap('china', visited.provinces, 'province');
+            chart.setOption(newOpt);
+
+            // 同时在 Modal 里渲染该省的地图
+            fetch(`/maps/province/${provincePinyin}.json`)
+              .then(r => {
+                if (!r.ok) throw new Error(`请求省级 GeoJSON 失败：/maps/province/${provincePinyin}.json`);
+                return r.json();
+              })
+              .then(provGeo => {
+                // 注册省级地图
+                echarts.registerMap(provinceNameCn, provGeo);
+
+                // 用 provinceChart 渲染 Modal 里的省级地图
+                const cityList = visited.cities[provinceNameCn] || [];
+                const opt2 = optionForMap(provinceNameCn, cityList, 'city');
+                provinceChart.setOption(opt2);
+
+                // 更新 Modal 标题、然后 show
+                document.getElementById('provinceMapModalLabel').innerText = `${provinceNameCn} 省级地图`;
+                const modalEl = document.getElementById('provinceMapModal');
+                const modal = new bootstrap.Modal(modalEl);
+                modal.show();
+              })
+              .catch(err => console.error(err));
+          } else {
+            console.warn(`${provinceNameCn} 在映射表里没有对应拼音，无法渲染省级地图`);
+          }
+        }
+      });
+    })
+    .catch(err => console.error('加载全国地图失败：', err));
 }
 
-    /**
-     * 渲染某个省的地级市地图
-     * @param {string} pinyin - 省份拼音，对应 map/province/{pinyin}.json
-     * @param {string} provinceNameCn - 省份中文名，例如“湖北省”
-     */
-    function renderProvinceMap(pinyin, provinceNameCn) {
-        currentLevel = 'province';
-        currentProvincePinyin = pinyin;
 
-        // 显示“返回全国”按钮（如果你加了该按钮）
-        const backBtn = document.getElementById('back-to-china');
-        if (backBtn) {
-            backBtn.style.display = 'inline-block';
-            backBtn.onclick = () => {
-                renderChinaMap();
-            };
-        }
+// 2. 省级地图点击事件（在 Modal 里）
+function renderProvinceMap() {
+  // 这里已不需要。我们直接在上面的 chart.on('click') 里用 provinceChart 取代。
+  // 这段函数可以删掉或保留空实现，并不再被调用。
+}
 
-        // 1. 找到 <div id="map-container">
-        const dom = document.getElementById('map-container');
-        if (!dom) {
-            console.error('找不到地图容器 map-container');
-            return;
-        }
 
-        // 2. 销毁已有实例并重新初始化
-        if (chart) {
-            chart.dispose();
-        }
-        chart = echarts.init(dom);
+// 3. 工具函数：根据层级生成 ECharts 配置
+function optionForMap(mapName, highlighted, level) {
+  return {
+    title: {
+      text: level === 'province'
+            ? '中国 地图（点击省份标记已去过）'
+            : `${mapName} 省级地图（点击城市/县标记已去过）`,
+      left: 'center'
+    },
+    tooltip: { trigger: 'item' },
+    visualMap: {
+      show: false,
+      pieces: [{ value: 1, label: '已去过', color: '#87CEFA' }],
+      categories: ['visited']
+    },
+    series: [{
+      type: 'map',
+      map: mapName,
+      roam: true,
+      emphasis: { label: { show: true } },
+      data: highlighted.map(n => ({ name: n, value: 1 }))
+    }]
+  };
+}
 
-        // 3. 请求该省 GeoJSON
-        fetch(`map/province/${pinyin}.json`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`请求省级 GeoJSON 失败：map/province/${pinyin}.json`);
-                }
-                return res.json();
-            })
-            .then(provinceGeo => {
-                // 注册该省地图
-                echarts.registerMap(pinyin, provinceGeo);
 
-                // 4. 构造地级市 data 数组
-                const cityDataArr = provinceGeo.features.map(f => {
-                    const cityName = f.properties.name;     // e.g. "武汉市"
-                    // 新增：打印整个 properties 对象，来看看有哪些字段
-   			 console.log('[调试] 某个地级市的 properties：',  f.properties);
-    
-                    const adcode = f.properties.adcode;     // e.g. "420100"
-                    return {
-                        name: cityName,
-                        adcode: adcode,
-                        value: uploadCityStatus[adcode] ? 1 : 0
-                    };
-                });
+// 4. 图集数据：把 “省名小写–adcode” 对应的图片路径列出来
+const images = {
+  'hubei–420100': ['/imgs/420100_wuhan_1.jpg', '/imgs/420100_wuhan_2.png'],
+  'guangdong–440500': ['/imgs/440500_shantou_1.jpg', '/imgs/440500_shantou_2.png'],
+  'yunnan–530100': ['/imgs/530100_kunming_1.jpg']
+  // …根据需要把其它城市的照片路径补全
+};
 
-                // 5. 省级地图配置
-                const option = {
-                    title: {
-                        text: provinceNameCn,
-                        left: 'center',
-                        top: 10,
-                        textStyle: { fontSize: 20 }
-                    },
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: params => params.name
-                    },
-                    visualMap: {
-                        show: false,
-                        min: 0,
-                        max: 1,
-                        inRange: {
-                            color: ['#e0e0e0', '#87cefa']  // 灰色 → 浅蓝
-                        }
-                    },
-                    series: [
-                        {
-                            name: provinceNameCn,
-                            type: 'map',
-                            map: pinyin,
-                            roam: true,
-                            label: { show: false },
-                            emphasis: {
-                                label: { show: true, color: '#000' }
-                            },
-                            data: cityDataArr
-                        }
-                    ]
-                };
-                chart.setOption(option);
+// 如果你想从“城市中文名”直接拿 adcode，可用下面这张表
+const cityCodeMap = {
+  'Wuhan':   '420100',
+  'Shantou': '440500',
+  'Kunming':'530100'
+  // …按需继续补充
+};
 
-                // 6. 点击地级市事件：如果有图片就弹层查看，否则提示
-                chart.off('click');
-                chart.on('click', params => {
-                    if (currentLevel === 'province') {
-                        const adcode = params.data.adcode;   // e.g. "420100"
-                        const cityName = params.name;        // e.g. "武汉市"
-        
-                        if (uploadCityStatus[adcode]) {
-                            openCityImageModal(adcode, pinyin, cityName);
-                        } else {
-                            alert(`${cityName} 暂未上传任何图片`);
-                        }
-                    }
-                });
-            })
-            .catch(err => {
-                console.error('省级地图加载失败：', err);
-            });
-    }
+// 5. 点击省级地图里的某个城市时，调用此函数显示图集
+function showGallery(provName, cityName) {
+  // 先拿 adcode
+  const code = cityCodeMap[cityName] || cityName;
+  const key = `${provName.toLowerCase()}–${code}`;
+  const arr = images[key] || [];
+
+  // 把照片以 400px 宽度插到 #gallery
+  const galleryEl = document.getElementById('gallery');
+  galleryEl.innerHTML = arr.map(url =>
+    `<img src="${url}" style="width:400px; margin:10px;
+       border:1px solid #ccc; border-radius:4px;">`
+  ).join('');
+}
+
+
+// 6. 页面加载完毕后启动全国地图
+window.addEventListener('DOMContentLoaded', () => {
+  renderChinaMap();
+});
+
+// ---------------------------------------------
+// 【替换内容结束】
+// ---------------------------------------------
 
     /**
      * 弹出某地级市的所有图片
