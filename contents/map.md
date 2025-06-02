@@ -7,7 +7,7 @@
 
 <!-- 2. 这是主界面的中国地图容器（加上边框），宽 100%、高 400px -->
 <div id="map-container"
-     style="width:100%; height:400px; margin:20px auto;
+     style="width:60%; height:400px; margin:20px auto;
             border:2px solid #ccc; border-radius:8px;
             box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>

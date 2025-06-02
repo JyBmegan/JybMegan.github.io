@@ -1,6 +1,10 @@
 // ---------------------------------------------
 // scripts.js
 // ---------------------------------------------
+let chart = null;
+let provinceChart = null;
+let currentLevel = '';
+let currentProvincePinyin = '';
 
 const content_dir = 'contents/';
 const config_file = 'config.yml';
