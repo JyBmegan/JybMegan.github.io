@@ -1,21 +1,11 @@
 
 
 <!-- 3. 给地图加个边框 -->
-<div id="map-container" style="width:80%;height:600px;margin:5px auto;
+<div id="map-container" style="width:60%;height:600px;margin:5px auto;
      border:2px solid #ccc; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>
 <div id="gallery"      style="margin:20px auto;text-align:center;"></div>
 
-<script>
-// …原有的脚本…
-</script>
-
-
-<div id="map-container" style="width:100%; height:600px; margin:0 auto;
-     border: 2px solid #ccc; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-</div>
-
-<div id="gallery"      style="margin:20px auto;text-align:center;"></div>
 
 <script>
 // —— 全局状态 ——  
