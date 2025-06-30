@@ -139,3 +139,20 @@ section .main-body{
   text-align: center;
 }
 
+/* 保证地图容器和其它内容同宽 */
+.content-width {
+  max-width: 800px;    /* 根据你其他板块的文字宽度，调整这个值 */
+  margin: 20px auto;
+}
+
+/* 保持 TRAVELING 标题和其它标题左对齐 */
+#map-subtitle {
+  margin-bottom: 1rem;
+  /* 不要 text-align:center，保持和其它标题相同 */
+}
+
+/* 照片 Modal 内的图片样式 */
+#cityGalleryBody img {
+  max-width: 90%;
+  margin: 10px;
+}

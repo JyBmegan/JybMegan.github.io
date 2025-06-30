@@ -1,14 +1,13 @@
-<!-- contents/map.md -->
-<h2 id="map-subtitle" class="section-title">
+<h2 id="map-subtitle">
   <i class="bi bi-geo-alt-fill"></i> TRAVELING
 </h2>
 
-<!-- 全国地图容器 -->
-<div id="map-container" class="map-box"></div>
-
-<!-- 省级地图行内容器，初始隐藏 -->
-<div id="province-inline-container" class="map-box hidden">
-  <button id="backToChina" class="btn btn-secondary btn-back">← 返回全国</button>
+<!-- 地图容器：与文字宽度一致 -->
+<div class="content-width">
+  <div id="map-container"
+       style="width:100%; height:400px; border:2px solid #ccc;
+              border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+  </div>
 </div>
 
 <!-- 城市照片弹窗 -->
@@ -19,7 +18,8 @@
         <h5 class="modal-title" id="cityGalleryModalLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <div class="modal-body" id="cityGalleryBody"></div>
+      <div class="modal-body" id="cityGalleryBody" style="text-align:center;">
+      </div>
     </div>
   </div>
 </div>
