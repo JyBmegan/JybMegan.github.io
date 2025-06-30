@@ -10971,4 +10971,21 @@ p, .lead, .text-body {
   margin: 0 auto 1.5rem;
   text-align: center;
 }
+/* 内容宽度与其它板块一致 */
+.content-width {
+  max-width: 800px;    /* 与文字区块同宽，按需调整 */
+  margin: 20px auto;
+}
+
+/* 标题左对齐，与其它区块保持一致 */
+#map-subtitle {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+/* Modal 中图片样式 */
+#cityGalleryBody img {
+  max-width: 90%;
+  margin: 10px;
+}
 
