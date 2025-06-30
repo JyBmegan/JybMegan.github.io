@@ -101,7 +101,7 @@ window.addEventListener('DOMContentLoaded', event => {
             .then(() => {
                 // MathJax 渲染——如果你有公式需要排版
                 // 如果暂不使用公式，也可注释掉这一行
-                MathJax.typeset();
+               // MathJax.typeset();
             })
             .catch(error => {
                 console.error('加载 Markdown 失败：', error);
@@ -232,7 +232,7 @@ function renderChinaMap() {
   provinceChart = echarts.init(provDom);
 
   // 拉取全国 GeoJSON 并注册到 ECharts
-  fetch('maps/china.json')
+  fetch('map/china.json')
     .then(res => {
       if (!res.ok) throw new Error('请求中国 GeoJSON 失败，状态码 ' + res.status);
       return res.json();
