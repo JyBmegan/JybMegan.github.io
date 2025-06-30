@@ -10977,11 +10977,6 @@ p, .lead, .text-body {
   margin: 20px auto;
 }
 
-/* 标题左对齐，与其它区块保持一致 */
-#map-subtitle {
-  text-align: left;
-  margin-bottom: 1rem;
-}
 
 /* Modal 中图片样式 */
 #cityGalleryBody img {
