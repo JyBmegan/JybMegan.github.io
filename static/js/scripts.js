@@ -232,7 +232,7 @@ function renderChinaMap() {
   provinceChart = echarts.init(provDom);
 
   // 拉取全国 GeoJSON 并注册到 ECharts
-  fetch('/maps/china.json')
+  fetch('maps/china.json')
     .then(res => {
       if (!res.ok) throw new Error('请求中国 GeoJSON 失败，状态码 ' + res.status);
       return res.json();
@@ -268,7 +268,7 @@ function renderChinaMap() {
             chart.setOption(newOpt);
 
             // 同时在 Modal 里渲染该省的地图
-            fetch(`/maps/province/${provincePinyin}.json`)
+            fetch(`maps/province/${provincePinyin}.json`)
               .then(r => {
                 if (!r.ok) throw new Error(`请求省级 GeoJSON 失败：/maps/province/${provincePinyin}.json`);
                 return r.json();
