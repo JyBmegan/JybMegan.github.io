@@ -108,24 +108,37 @@ window.addEventListener('DOMContentLoaded', event => {
             });
     });
 
-   // =========================================================================
-// 地图与图片功能区 (最终版)
+// =========================================================================
+// 地图与图片功能区 (最终功能版)
 // =========================================================================
 
 // 全局变量，用于持有 ECharts 实例
 let chinaChart = null;
 let provinceChart = null;
 
-// 1. 定义哪些省份有照片，这将决定初始高亮的颜色
-//    这里的 key 必须是省份的中文名，和地图数据一致。
-const provincesWithPhotos = {
-  "湖北": true,
-  "广东": true,
-  "云南": true
-  // 如果您在其他省份也有照片，请在这里添加，例如: "四川": true,
+// ------------------- 数据定义区 (您未来主要维护这里) -------------------
+
+// 1. 定义您的照片数据
+// 格式: '省份拼音-城市邮政编码': ['图片路径1', '图片路径2', ...]
+const imagesByCode = {
+  'hubei-420100': ['imgs/420100_wuhan_1.jpg', 'imgs/420100_wuhan_2.png'],
+  'guangdong-440500': ['imgs/440500_shantou_1.jpg', 'imgs/440500_shantou_2.png'],
+  'guangdong-445100': ['imgs/445100_chaozhou_1.jpg'],
+  'yunnan-530100': ['imgs/530100_kunming_1.jpg']
+  // 当您添加新城市的照片时，在这里新增一行即可
 };
 
-// 2. 省份中文名到拼音的映射表 (确保这里的拼音和你的文件名一致)
+// 2. 城市邮政编码到中文名的映射 (非常重要)
+// ECharts 地图里需要用中文名来匹配，所以我们需要这个转换表
+const cityCodeToName = {
+    "420100": "武汉市",
+    "440500": "汕头市",
+    "445100": "潮州市",
+    "530100": "昆明市"
+    // 每当您在上面 `imagesByCode` 中添加一个新城市，都需要在这里加上它的邮政编码和中文名
+};
+
+// 3. 省份中文名到拼音的映射表 (这个基本不用动)
 const provinceNameToPinyin = {
     "北京": "beijing", "天津": "tianjin", "上海": "shanghai", "重庆": "chongqing",
     "河北": "hebei", "山西": "shanxi", "辽宁": "liaoning", "吉林": "jilin",
@@ -138,111 +151,152 @@ const provinceNameToPinyin = {
     "香港": "xianggang", "澳门": "aomen"
 };
 
+// ------------------- 核心功能函数 (基本不用修改) -------------------
+
+/**
+ * 预处理照片数据，方便后续使用
+ * @returns {object} { provinces: ['湖北', '广东'], cities: {'湖北': ['武汉市'], '广东': ['汕头市', '潮州市']} }
+ */
+function processImageData() {
+    const provinces = new Set();
+    const citiesByProvince = {};
+    for (const key in imagesByCode) {
+        const [provPinyin, cityCode] = key.split('-');
+        const provName = Object.keys(provinceNameToPinyin).find(name => provinceNameToPinyin[name] === provPinyin);
+        const cityName = cityCodeToName[cityCode];
+
+        if (provName && cityName) {
+            provinces.add(provName);
+            if (!citiesByProvince[provName]) {
+                citiesByProvince[provName] = [];
+            }
+            citiesByProvince[provName].push(cityName);
+        }
+    }
+    return {
+        provinces: Array.from(provinces),
+        cities: citiesByProvince
+    };
+}
+
+const processedData = processImageData();
+
 /**
  * 函数：生成 ECharts 地图配置
- * @param {string} mapName - 地图名称 (例如 'china' 或 '湖北')
- * @param {Array} highlightData - 需要高亮的数据数组 (例如 ['湖北', '广东'])
- * @returns {object} ECharts 配置对象
  */
 function getMapOptions(mapName, highlightData) {
     return {
         tooltip: { trigger: 'item' },
-        visualMap: {
-            show: true,
-            min: 0,
-            max: 1,
-            left: 'left',
-            top: 'bottom',
-            text: ['有照片', ''],
-            calculable: false,
-            inRange: { color: ['#87CEFA', '#1E90FF'] }, // 有数据的省份颜色
-            outOfRange: { color: '#E0E0E0' } // 没数据的省份颜色
-        },
+        // **【功能修改#1】**: 移除颜色条 (visualMap)
+        // 我们通过直接给数据上色的方式，替代原来的 visualMap
         series: [{
             type: 'map',
             map: mapName,
             roam: true,
             emphasis: { label: { show: true }, itemStyle: { areaColor: '#FFD700' } },
-            data: highlightData.map(name => ({ name: name, value: 1 }))
+            data: highlightData.map(item => ({
+                name: item.name,
+                value: item.value, // 为未来扩展保留
+                itemStyle: {
+                    areaColor: '#1E90FF', // 高亮区域的颜色
+                    borderColor: '#fff'
+                }
+            }))
         }]
     };
 }
 
 /**
  * 函数：渲染省级地图
- * @param {string} provinceName - 省份中文名 (例如 '湖北')
- * @param {string} provincePinyin - 省份拼音 (例如 'hubei')
  */
 function renderProvinceMap(provinceName, provincePinyin) {
     const provinceMapPath = `map/province/${provincePinyin}.json`;
     fetch(provinceMapPath)
-        .then(res => {
-            if (!res.ok) throw new Error(`加载省级地图失败: ${provinceMapPath}`);
-            return res.json();
-        })
+        .then(res => res.json())
         .then(provinceGeoJson => {
             echarts.registerMap(provinceName, provinceGeoJson);
-
-            // TODO: 将来在这里定义哪些城市需要高亮
-            const cityHighlightData = []; 
-            const provinceOptions = getMapOptions(provinceName, cityHighlightData);
+            
+            // **【功能修改#2】**: 找出这个省内需要高亮的城市
+            const citiesToHighlight = processedData.cities[provinceName] || [];
+            const highlightData = citiesToHighlight.map(name => ({ name }));
+            
+            const provinceOptions = getMapOptions(provinceName, highlightData);
             provinceChart.setOption(provinceOptions);
 
-            document.getElementById('provinceMapModalLabel').innerText = `${provinceName} 省级地图`;
+            document.getElementById('provinceMapModalLabel').innerText = `${provinceName} 省地图`;
             const modal = new bootstrap.Modal(document.getElementById('provinceMapModal'));
             modal.show();
         })
-        .catch(err => console.error(err));
+        .catch(err => console.error(`加载省级地图失败: ${err}`));
 }
 
 /**
  * 函数：初始化全国地图（总入口）
  */
 function initTravelMap() {
-    // 1. 获取容器
     const chinaContainer = document.getElementById('map-container');
     const provinceContainer = document.getElementById('province-map-container');
-    if (!chinaContainer || !provinceContainer) {
-        console.error('地图容器未找到，请检查 map.md 文件是否正确！');
-        return;
-    }
+    if (!chinaContainer || !provinceContainer) return;
 
-    // 2. 初始化 ECharts 实例
     chinaChart = echarts.init(chinaContainer);
     provinceChart = echarts.init(provinceContainer);
 
-    // 3. 加载全国地图数据
     fetch('map/china.json')
-        .then(res => {
-            if (!res.ok) throw new Error('加载全国地图失败: map/china.json');
-            return res.json();
-        })
+        .then(res => res.json())
         .then(chinaGeoJson => {
             echarts.registerMap('china', chinaGeoJson);
-
-            // 4. 根据 provincesWithPhotos 自动生成高亮数据
-            const highlightData = Object.keys(provincesWithPhotos);
+            
+            // 根据预处理的数据，高亮有照片的省份
+            const highlightData = processedData.provinces.map(name => ({ name }));
             const options = getMapOptions('china', highlightData);
             chinaChart.setOption(options);
         })
-        .catch(err => console.error(err));
-
-    // 5. 为全国地图绑定点击事件
+        .catch(err => console.error(`加载全国地图失败: ${err}`));
+    
+    // 为全国地图绑定点击事件
     chinaChart.on('click', params => {
-        const provinceName = params.name; // 获取点击的省份中文名
-        const provincePinyin = provinceNameToPinyin[provinceName]; // 从映射表查找拼音
-
+        const provinceName = params.name;
+        const provincePinyin = provinceNameToPinyin[provinceName];
         if (provincePinyin) {
             renderProvinceMap(provinceName, provincePinyin);
-        } else {
-            console.error(`${provinceName} 在映射表里没有对应拼音，无法渲染省级地图`);
         }
     });
 
-    // 6. 为省级地图绑定点击事件 (未来使用)
+    // **【功能修改#3】**: 为省级地图绑定点击事件，以显示照片
     provinceChart.on('click', params => {
-        alert(`您点击了城市: ${params.name}`);
-        // 在这里添加显示城市相册的逻辑
+        const cityName = params.name; // "武汉市"
+        const cityCode = Object.keys(cityCodeToName).find(code => cityCodeToName[code] === cityName);
+        
+        // 查找对应的省份拼音，用于构建照片数据的 key
+        const provinceName = document.getElementById('provinceMapModalLabel').innerText.replace(' 省地图', '');
+        const provincePinyin = provinceNameToPinyin[provinceName];
+
+        const imageKey = `${provincePinyin}-${cityCode}`;
+        const photos = imagesByCode[imageKey];
+
+        const galleryDiv = document.getElementById('gallery');
+        if (photos && photos.length > 0) {
+            // 先清空上一次的图片
+            galleryDiv.innerHTML = `<h3>${cityName} 的照片</h3>`;
+            
+            // 创建并添加新的图片
+            photos.forEach(photoPath => {
+                const img = document.createElement('img');
+                img.src = photoPath;
+                img.style.maxWidth = '200px';
+                img.style.margin = '10px';
+                img.style.borderRadius = '5px';
+                galleryDiv.appendChild(img);
+            });
+            
+            // 关闭弹窗并滚动到画廊位置
+            const modal = bootstrap.Modal.getInstance(document.getElementById('provinceMapModal'));
+            modal.hide();
+            galleryDiv.scrollIntoView({ behavior: 'smooth' });
+
+        } else {
+            // 如果点击了没有照片的城市，可以给一个提示
+            alert(`您点击了 ${cityName}，但这个城市还没有关联照片。`);
+        }
     });
 }
-});
