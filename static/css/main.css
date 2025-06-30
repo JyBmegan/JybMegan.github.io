@@ -109,4 +109,33 @@ section .main-body{
     }
 }
 
+/* 地图容器通用样式 */
+.map-box {
+  width: 100%;
+  height: 400px;
+  margin: 20px auto;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 隐藏元素 */
+.hidden {
+  display: none !important;
+}
+
+/* 返回按钮样式 */
+.btn-back {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
+
+/* 统一区块标题 */
+.section-title {
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+}
 
