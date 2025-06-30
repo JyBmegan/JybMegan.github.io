@@ -1,3 +1,4 @@
+<!-- contents/map.md -->
 <h2 id="map-subtitle" class="section-title">
   <i class="bi bi-geo-alt-fill"></i> TRAVELING
 </h2>
@@ -9,11 +10,19 @@
             box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>
 
-<!-- 省级地图容器（行内展示） -->
+<!-- 省级地图容器（行内展示），初始隐藏 -->
 <div id="province-inline-container"
      style="width:100%; height:600px; margin:20px auto;
             border:2px solid #ccc; border-radius:8px;
-            box-shadow:0 2px 8px rgba(0,0,0,0.1); display:none;">
+            box-shadow:0 2px 8px rgba(0,0,0,0.1);
+            display:none; position:relative;">
+  <!-- 返回全国按钮 -->
+  <button id="backToChina"
+          style="position:absolute; top:10px; left:10px; z-index:10;"
+          class="btn btn-secondary">
+    ← 返回全国
+  </button>
+  <!-- ECharts 会在这里渲染省级地图 -->
 </div>
 
 <!-- 城市照片 Modal 弹窗 -->
@@ -27,3 +36,7 @@
       </div>
       <div class="modal-body" id="cityGalleryBody" style="text-align:center;">
         <!-- JavaScript 自动填充图片 -->
+      </div>
+    </div>
+  </div>
+</div>

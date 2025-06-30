@@ -9,26 +9,22 @@ const section_names = ['top', 'meetme', 'publications', 'awards', 'blog', 'trave
 window.addEventListener('DOMContentLoaded', () => {
   // 1. Bootstrap ScrollSpy
   const mainNav = document.querySelector('#mainNav');
-  if (mainNav) {
-    new bootstrap.ScrollSpy(document.body, { target: '#mainNav', offset: 74 });
-  }
+  if (mainNav) new bootstrap.ScrollSpy(document.body, { target: '#mainNav', offset: 74 });
 
   // 2. 收起响应式菜单
-  const navbarToggler = document.querySelector('.navbar-toggler');
+  const toggler = document.querySelector('.navbar-toggler');
   document.querySelectorAll('#navbarResponsive .nav-link').forEach(item => {
     item.addEventListener('click', () => {
-      if (window.getComputedStyle(navbarToggler).display !== 'none') {
-        navbarToggler.click();
-      }
+      if (window.getComputedStyle(toggler).display !== 'none') toggler.click();
     });
   });
 
   // 3. 加载 config.yml
   fetch(content_dir + config_file)
-    .then(res => res.text())
-    .then(text => {
-      const data = jsyaml.load(text);
-      Object.entries(data).forEach(([id, html]) => {
+    .then(r => r.text())
+    .then(txt => {
+      const cfg = jsyaml.load(txt);
+      Object.entries(cfg).forEach(([id, html]) => {
         const el = document.getElementById(id);
         if (el) el.innerHTML = html;
       });
@@ -40,29 +36,22 @@ window.addEventListener('DOMContentLoaded', () => {
   section_names.forEach(name => {
     const md = name === 'traveling' ? 'map.md' : `${name}.md`;
     fetch(content_dir + md)
-      .then(res => {
-        if (!res.ok) throw new Error(`无法加载 ${md}，状态 ${res.status}`);
-        return res.text();
+      .then(r => {
+        if (!r.ok) throw new Error(`无法加载 ${md}，状态 ${r.status}`);
+        return r.text();
       })
       .then(txt => {
         const html = marked.parse(txt);
         const container = document.getElementById(name === 'traveling' ? 'map-md' : `${name}-md`);
-        if (!container) {
-          console.warn(`找不到容器 #${name}-md`);
-          return;
-        }
+        if (!container) return console.warn(`找不到容器 #${name}-md`);
         container.innerHTML = html;
         if (name === 'traveling') initTravelMap();
       })
       .catch(err => console.error('加载 Markdown 失败：', err));
   });
 
-  // ----- 地图 & 图片功能 -----
-
-  let chinaChart = null;
-  let provinceChart = null;
-
-  // 照片数据 & 映射
+  // --- 地图 & 照片 功能区 ---
+  let chinaChart, provinceChart;
   const imagesByCode = {
     'hubei-420100': ['imgs/420100_wuhan_1.jpg', 'imgs/420100_wuhan_2.png'],
     'guangdong-440500': ['imgs/440500_shantou_1.jpg', 'imgs/440500_shantou_2.png'],
@@ -87,22 +76,24 @@ window.addEventListener('DOMContentLoaded', () => {
     '香港':'xianggang','澳门':'aomen'
   };
 
+  // 预处理照片数据
   function processImageData() {
     const provs = new Set(), cities = {};
     for (let key in imagesByCode) {
       const [pinyin, code] = key.split('-');
-      const name = Object.keys(provinceNameToPinyin).find(n => provinceNameToPinyin[n] === pinyin);
+      const pname = Object.keys(provinceNameToPinyin)
+                           .find(n => provinceNameToPinyin[n] === pinyin);
       const cname = cityCodeToName[code];
-      if (name && cname) {
-        provs.add(name);
-        cities[name] = cities[name]||[];
-        cities[name].push(cname);
+      if (pname && cname) {
+        provs.add(pname);
+        (cities[pname] = cities[pname] || []).push(cname);
       }
     }
     return { provinces: [...provs], cities };
   }
   const processed = processImageData();
 
+  // 构造 ECharts 配置
   function getMapOptions(mapName, highlightData) {
     return {
       tooltip: { trigger: 'item' },
@@ -111,43 +102,52 @@ window.addEventListener('DOMContentLoaded', () => {
         map: mapName,
         roam: true,
         emphasis: { label: { show: true }, itemStyle: { areaColor: '#FFD700' } },
-        data: highlightData.map(n => ({
-          name: n.name,
+        data: highlightData.map(d => ({
+          name: d.name,
           itemStyle: { areaColor: '#1E90FF', borderColor: '#fff' }
         }))
       }]
     };
   }
 
+  // 渲染省级地图
   function renderProvinceMap(provName, provPinyin) {
     fetch(`map/province/${provPinyin}.json`)
       .then(r => r.json())
       .then(geo => {
         echarts.registerMap(provName, geo);
-        const container = document.getElementById('province-inline-container');
-        container.style.display = 'block';
-        provinceChart = echarts.init(container);
-        const data = (processed.cities[provName]||[]).map(n=>({name:n}));
-        provinceChart.setOption(getMapOptions(provName, data));
+        // 显示行内容器并初始化
+        const cont = document.getElementById('province-inline-container');
+        cont.style.display = 'block';
+        if (chinaChart) chinaChart.dispose();  // 隐藏全国地图
+        provinceChart = echarts.init(cont);
+        const Hd = (processed.cities[provName]||[]).map(n=>({ name:n }));
+        provinceChart.setOption(getMapOptions(provName, Hd));
 
-        // 点击城市时弹出照片
+        // 绑定“返回全国”按钮
+        document.getElementById('backToChina').onclick = () => {
+          cont.style.display = 'none';
+          initTravelMap();  // 重新渲染全国
+        };
+
+        // 城市点击弹照片
         provinceChart.off('click');
         provinceChart.on('click', params => {
           const city = params.name;
-          const code = Object.keys(cityCodeToName).find(c=>cityCodeToName[c]===city);
+          const code = Object.keys(cityCodeToName)
+                             .find(c=>cityCodeToName[c]===city);
           const key = `${provPinyin}-${code}`;
           const pics = imagesByCode[key] || [];
-          if (!pics.length) {
-            alert(`${city} 无照片`);
-            return;
-          }
+          if (!pics.length) return alert(`${city} 无照片`);
           const lbl = document.getElementById('cityGalleryModalLabel');
           const body = document.getElementById('cityGalleryBody');
           lbl.innerText = `${city} 的照片`;
           body.innerHTML = '';
-          pics.forEach(p=>{
+          pics.forEach(p => {
             const img = document.createElement('img');
-            img.src = p; img.style.maxWidth='90%'; img.style.margin='10px';
+            img.src = p;
+            img.style.maxWidth = '90%';
+            img.style.margin = '10px';
             body.appendChild(img);
           });
           new bootstrap.Modal(document.getElementById('cityGalleryModal')).show();
@@ -156,22 +156,25 @@ window.addEventListener('DOMContentLoaded', () => {
       .catch(e => console.error('加载省级地图失败：', e));
   }
 
+  // 初始化全国地图
   function initTravelMap() {
-    const c = document.getElementById('map-container');
-    const p = document.getElementById('province-inline-container');
-    if (!c || !p) return;
-    chinaChart = echarts.init(c);
+    const cn = document.getElementById('map-container');
+    const pi = document.getElementById('province-inline-container');
+    if (!cn) return;
+    if (pi) pi.style.display = 'none';
+    chinaChart = echarts.init(cn);
     fetch('map/china.json')
       .then(r=>r.json())
-      .then(geo=> {
+      .then(geo=>{
         echarts.registerMap('china', geo);
-        const data = processed.provinces.map(n=>({name:n}));
-        chinaChart.setOption(getMapOptions('china', data));
+        const Hd = processed.provinces.map(n=>({ name:n }));
+        chinaChart.setOption(getMapOptions('china', Hd));
       })
       .catch(e=>console.error('加载全国地图失败：', e));
 
-    chinaChart.on('click', params=> {
-      const prov = params.name;
+    chinaChart.off('click');
+    chinaChart.on('click', p=>{
+      const prov = p.name;
       const py = provinceNameToPinyin[prov];
       if (py) renderProvinceMap(prov, py);
     });
