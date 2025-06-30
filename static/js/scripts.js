@@ -245,3 +245,4 @@ function initTravelMap() {
         // 在这里添加显示城市相册的逻辑
     });
 }
+});
