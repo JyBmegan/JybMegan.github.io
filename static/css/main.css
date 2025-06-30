@@ -146,10 +146,7 @@ section .main-body{
 }
 
 /* 保持 TRAVELING 标题和其它标题左对齐 */
-#map-subtitle {
-  margin-bottom: 1rem;
-  /* 不要 text-align:center，保持和其它标题相同 */
-}
+
 
 /* 照片 Modal 内的图片样式 */
 #cityGalleryBody img {
