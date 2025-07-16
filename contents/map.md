@@ -1,4 +1,4 @@
-Please interact after the page is fully loaded.
+Please interact after the page is fully loaded (Reload if no province map there).
 
 Feel free to guess which pictures were photoed by Osmo Pocket 3 (Dajiang), Canon telephoto lens/ short focal length lens or mobile phone.
 
