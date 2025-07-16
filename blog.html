@@ -40,10 +40,10 @@
     const posts = [
       {
         slug: '2025-05-01-my-post',
-        title: 'My Project Update',
+        title: 'New! HeartBridge for Inclusive Education!',
         date: '2025-05-01',
         thumb: 'static/assets/blog/2025-05-01-thumb.jpg',
-        excerpt: 'A brief summary of my latest project, including methodology and early results…'
+        excerpt: 'A super fun app that helps kids master their emotions with cool games and a safe place to connect with friends!'
       }
       // add more posts here
     ];
@@ -59,7 +59,7 @@
             <h5 class="card-title">${p.title}</h5>
             <p class="card-text text-muted">${p.date}</p>
             <p class="card-text">${p.excerpt}</p>
-            <a href="posts/${p.slug}.html" class="mt-auto btn btn-outline-primary">Read more</a>
+            <a href="posts/${p.slug}/${p.slug}.html" class="mt-auto btn btn-outline-primary">Read more</a>
           </div>
         </div>`;
       container.appendChild(col);

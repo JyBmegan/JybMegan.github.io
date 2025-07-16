@@ -215,9 +215,8 @@ blockquote {
   margin: 0 0 1rem;
 }
 
-b,
-strong {
-  font-weight: bolder;
+b, strong {
+  font-weight: var(--bold-weight) !important;
 }
 
 small, .small {
@@ -10914,7 +10913,6 @@ footer a:hover, footer a:active, footer a:focus {
 body {
   /* 中文走 Noto Sans SC，英文字母走 Helvetica Neue/Helvetica/Arial */
   font-family: 'Noto Sans SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 400;      /* 可根据需要调整正文粗细 */
   font-size: 1rem;       /* 默认正文字号 */
   line-height: 1.5;      /* 行高 */
 }
@@ -10997,5 +10995,19 @@ p, .lead, .text-body {
   object-fit: contain; /* 保持缩放比例 */
   transform: scale(1.2);       /* 放大效果可调 */
   transform-origin: center;   /* 保证缩放围绕中心 */
+}
+
+/* 淡灰色背景：Publications, Blog, Download */
+#publications,
+#blog,
+#download {
+  background-color: #f8f9fa;
+}
+
+/* 白色透明背景：Meet Me, Awards, Traveling */
+#meet-me,
+#awards,
+#map {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
