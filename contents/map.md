@@ -1,3 +1,7 @@
+Please interact after the page is fully loaded.
+
+Feel free to guess which pictures were photoed by Osmo Pocket 3 (Dajiang), Canon telephoto lens/ short focal length lens or mobile phone.
+
 <!-- contents/map.md -->
 <div class="content-width">
   <!-- 返回全国地图按钮 -->
