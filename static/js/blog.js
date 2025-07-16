@@ -3,11 +3,11 @@
 // ——— 博客文章元数据 ———
 const posts = [
   {
-    slug: '2025-05-01-my-post',
-    title: 'My Project Update',
-    date: '2025-05-01',
-    thumb: 'static/assets/blog/2025-05-01-thumb.jpg',
-    excerpt: 'A brief summary of my latest project, including methodology and early results…'
+        slug: '2025-05-01-my-post',
+        title: 'New! HeartBridge for Inclusive Education!',
+        date: '2025-05-01',
+        thumb: 'static/assets/blog/2025-05-01-thumb.jpg',
+        excerpt: 'A super fun app that helps kids master their emotions with cool games and a safe place to connect with friends!'
   }
   // 若有更多文章，再以逗号 , 添加一个对象
 ];
