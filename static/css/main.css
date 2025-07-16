@@ -153,3 +153,10 @@ section .main-body{
   max-width: 90%;
   margin: 10px;
 }
+section#blog h2, /* 如果你只想blog内 */
+h2 {
+  border-top: 1px solid #ccc;  /* 淡灰色分割线 */
+  padding-top: 0.5em;          /* 让线和标题文字有点间距 */
+  margin-top: 1.5em;           /* 标题和上一部分内容间距 */
+}
+
