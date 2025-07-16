@@ -186,17 +186,20 @@
 </section>
 
 
-    <!-- Blog -->
-    <section … id="blog">
-        <div class="container px-5">
-            <header>
-               <h2 id="blog-subtitle">
-                  <i class="bi bi-pencil-square"></i> BLOG
-               </h2>
-            </header>
-            <div class="main-body" id="blog-md"></div>
-        </div>
-    </section>
+	<!-- Blog -->
+<section id="blog">
+  	<div class="container px-5">
+   		 <header>
+      			<h2 id="blog-subtitle">
+        			<i class="bi bi-pencil-square"></i> BLOG
+      			</h2>
+    		</header>
+    <!-- 原来是 <div class="main-body" id="blog-md"></div> -->
+    <!-- 改成： -->
+    	<div id="home-post-list" class="row gy-4 mt-4"></div>
+  </div>
+</section>
+
 
     <!-- Traveling Map -->
 <section id="map">
@@ -236,6 +239,17 @@
             </div>
         </div>
     </footer>
+    
+<script>
+  // —— 博客文章元数据 ——（和 blog.html 保持一致）
+ 	 const posts = [ /* … */ ];
+ 	 function renderPosts(containerId) {
+    /* … 渲染逻辑 … */
+  }
+
+  renderPosts('home-post-list');
+</script>
+
 
 </body>
 
