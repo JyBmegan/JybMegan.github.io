@@ -130,26 +130,49 @@ function loadChina() {
 }
 
 // 加载省级
+// 加载省级
 function loadProvince(name, pinyin) {
   currentMode = pinyin;
   const btn = document.getElementById('backChinaBtn');
-  btn.style.display = ''; btn.onclick = loadChina;
+  btn.style.display = ''; 
+  btn.onclick = loadChina;
 
   fetch(`map/province/${pinyin}.json`)
     .then(r => r.json())
     .then(geo => {
+      // 1. 注册该省的 map
       echarts.registerMap(name, geo);
+
+      // 2. 找出这个省里有照片的所有城市 code
+      const cityCodes = Object
+        .keys(imageCounts)
+        .filter(k => k.endsWith(`-${pinyin}`))
+        .map(k => k.split('-')[0]);
+
+      // 3. 构造 ECharts 要用的 data：把城市中文名和样式打平
+      const cityData = cityCodes.map(code => ({
+        name: cityMap[code],
+        itemStyle: { areaColor: '#FF7F50', borderColor: '#fff' }
+      }));
+
+      // 4. 更新图表：高亮这些城市
       chart.setOption({
-        tooltip: { trigger:'item' },
-        series:[{
-          type:'map', map:name, roam:true,
-          emphasis:{ label:{show:true}, itemStyle:{areaColor:'#FFD700'} },
-          data: []
+        tooltip: { trigger: 'item' },
+        series: [{
+          type: 'map',
+          map: name,
+          roam: true,
+          emphasis: {
+            label: { show: true },
+            itemStyle: { areaColor: '#FFD700' }
+          },
+          data: cityData
         }]
       });
     })
     .catch(err => console.error('加载省级地图失败:', err));
 }
+
 
 // 弹出城市照片
 function showCityPhotos(code, key) {

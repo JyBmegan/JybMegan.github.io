@@ -1,7 +1,7 @@
 <!-- contents/map.md -->
 <div class="content-width">
   <h2 id="map-subtitle">
-    <i class="bi bi-geo-alt-fill"></i> TRAVELING
+    <i class="bi bi-pin-map"></i> TRAVELING
   </h2>
 
   <!-- 返回全国地图按钮，初始隐藏 -->
