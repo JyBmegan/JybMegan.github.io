@@ -10981,20 +10981,21 @@ p, .lead, .text-body {
   margin: 10px;
 }
 
-/* 让 #map-container 内的 svg 或 img 放大并保持居中 */
-#map-container svg,
-#map-container img {
-  display: block;
-  margin: 0 auto;
-  transform: scale(1.2);           /* 按需放大比例 */
-  transform-origin: center center;
-  max-width: 100%;                 /* 防止溢出容器 */
+/* 样式：让 map-container 中的地图总能显示在框中居中（水平和垂直） */
+#map-container {
+  display: flex;
+  justify-content: center;  /* 水平居中 */
+  align-items: center;      /* 垂直居中 */
+  overflow: hidden;         /* 防止缩放溢出 */
+  position: relative;
 }
 
-/* 确保 content-width 本身仍然居中：
-   你可以根据需要调整最大宽度 */
-.content-width {
-  margin: 0 auto;
-  max-width: 800px;  /* 或者 100% 根据设计 */
+#map-container svg,
+#map-container img {
+  max-width: 100%;     /* 不超出容器宽度 */
+  max-height: 100%;    /* 不超出容器高度 */
+  object-fit: contain; /* 保持缩放比例 */
+  transform: scale(1.2);       /* 放大效果可调 */
+  transform-origin: center;   /* 保证缩放围绕中心 */
 }
 
