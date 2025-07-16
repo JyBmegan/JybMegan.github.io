@@ -89,12 +89,19 @@
 
 </head>
 
-<!-- 引入我们新建的脚本 -->
-<script src="static/js/blog.js"></script>
-<script>
-  // 确保容器 ID 与 HTML 中的 <div id="home-post-list"> 一致
-  renderPosts('home-post-list');
-</script>
+  <!-- 引入依赖：Bootstrap、Marked（你应该已经有了） -->
+  <script src="static/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/marked.min.js"></script>
+
+  <!-- 引入我们新创建的 blog.js -->
+  <script src="static/js/blog.js"></script>
+  <!-- 只调用，不再声明 posts 或 renderPosts -->
+  <script>
+    // —— 渲染首页博客卡片 ——  
+    renderPosts('home-post-list');
+  </script>
+
+
 </body>
 </html>
 
@@ -250,7 +257,7 @@
         </div>
     </footer>
     
-<script>
+<!--<script>
   // —— 博客文章元数据 —— （至少要有一个对象）
   const posts = [
     {
@@ -288,7 +295,7 @@
   // 在主页的 #home-post-list 渲染
   renderPosts('home-post-list');
 </script>
-
+-->
 
 
 </body>

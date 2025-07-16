@@ -4,19 +4,19 @@
 - 2024-12 : Soochow Univ. Xu Zengshou Endowed Scholarship (Endowed Scholarship / University)  
 - 2024-12 : Soochow Univ. 2024 Outstanding Academic Achievement (First-Class Scholarship / University)  
 - 2024-12 : Soochow Univ. 2024 Innovation & Entrepreneurship (First-Class Scholarship / University)  
-- 2024-12 : Soochow Univ. 2024 Comprehensive Scholarship (Comprehensive Scholarship / University)  
+- 2024-12 : Soochow Univ. 2024 Comprehensive Scholarship (First-Class Scholarship / University)  
 - 2024-12 : Soochow Univ. 2024 Social Work Special Scholarship (Social Work Special Scholarship / University)  
 - 2023-12 : Soochow Univ. 2023 Outstanding Academic Achievement (First-Class Scholarship / University)  
 - 2023-12 : Soochow Univ. 2023 Social Work Scholarship (Social Work Scholarship / University)  
 
 ## 🏅 Honors
 
-- 2025-05 : Soochow Univ. “Excellent Zengzheng Scholar”  
+- 2025-05 : Soochow Univ. “Excellent Junzheng Scholar”  
 - 2025-03 : Soochow Univ. Outstanding Communist Youth League Member  
 - 2024-12 : Soochow Univ. 2024 “Three-Good Student”  
 - 2024-08 : Soochow Univ. 2023–24 Academic Year Outstanding Student Association Cadre  
 - 2024-08 : Soochow Univ. 2023–24 Academic Year Outstanding Federation Cadre  
-- 2024-04 : Soochow Univ. “Zengzheng Scholar”  
+- 2024-04 : Soochow Univ. “Junzheng Scholar”  
 - 2023-11 : Soochow Univ. 2023 Summer Social Practice “Advanced Individual”  
 
 ## 🔬 Academic & Research
