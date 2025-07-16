@@ -70,17 +70,24 @@ let chart, currentMode = 'china';
 
 // 照片计数 { 'cityCode-provPinyin': count }
 const imageCounts = {
-  '420100-hubei': 2,
-  '440500-guangdong': 2,
-  '445100-guangdong': 1,
-  '530100-yunnan': 1
+  '420100-hubei': 4,
+  '440500-guangdong': 11,
+  '445100-guangdong': 4,
+  '530100-yunnan': 2,
+  '320500-jiangsu': 2,
+  '330200-zhejiang': 5,
+  '500100-chongqing': 6,
+  '370200-qingdao': 4,
+  '530700-yunnan': 5,
+  '532900-yunnan': 5
+  	  
 };
 
 // 省中⇄拼映射
-const provMap = { '湖北':'hubei', '广东':'guangdong', '云南':'yunnan' };
+const provMap = { '湖北':'hubei', '广东':'guangdong', '云南':'yunnan' , '江苏':'jiangsu', '浙江':'zhejiang', '重庆':'chongqing', '山东':'shandong'};
 
 // 城市编码⇄名映射
-const cityMap = { '420100':'武汉市','440500':'汕头市','445100':'潮州市','530100':'昆明市' };
+const cityMap = { '420100':'武汉市','440500':'汕头市','445100':'潮州市','530100':'昆明市' , '320500':'苏州市', '330200':'宁波市','500100':'重庆市', '370200':'青岛市', '530700':'丽江市', '532900':'大理白族自治州'};
 
 // 有照片的省份中文名列表
 const provincesWithPhotos = Array.from(
