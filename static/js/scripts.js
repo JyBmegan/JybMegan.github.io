@@ -77,9 +77,9 @@ const imageCounts = {
   '320500-jiangsu': 2,
   '330200-zhejiang': 5,
   '500100-chongqing': 6,
-  '370200-qingdao': 4,
+  '370200-shandong': 4,
   '530700-yunnan': 5,
-  '532900-yunnan': 5
+  '532900-yunnan': 5,
   	  
 };
 
