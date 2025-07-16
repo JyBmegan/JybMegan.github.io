@@ -1,10 +1,6 @@
 <!-- contents/map.md -->
 <div class="content-width">
-  <h2 id="map-subtitle">
-    <i class="bi bi-pin-map"></i> TRAVELING
-  </h2>
-
-  <!-- 返回全国地图按钮，初始隐藏 -->
+  <!-- 返回全国地图按钮 -->
   <button id="backChinaBtn" class="btn btn-secondary btn-sm mb-2" style="display: none;">
     ← 返回全国
   </button>

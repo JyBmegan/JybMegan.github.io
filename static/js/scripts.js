@@ -158,16 +158,19 @@ function loadProvince(name, pinyin) {
       // 4. 更新图表：高亮这些城市
       chart.setOption({
         tooltip: { trigger: 'item' },
-        series: [{
-          type: 'map',
-          map: name,
-          roam: true,
-          emphasis: {
-            label: { show: true },
-            itemStyle: { areaColor: '#FFD700' }
-          },
-          data: cityData
-        }]
+	series: [{
+  	type: 'map',
+  	map: name,
+  	layoutCenter: ['50%', '50%'],
+  	layoutSize: '85%',
+  	roam: true,
+  	emphasis: {
+    		label: { show: true },
+    		itemStyle: { areaColor: '#FFD700' }
+  	},
+  	data: cityData
+}]
+
       });
     })
     .catch(err => console.error('加载省级地图失败:', err));
