@@ -8,7 +8,15 @@ const posts = [
         date: '2025-05-01',
         thumb: 'static/assets/blog/2025-05-01-thumb.jpg',
         excerpt: 'A super fun app that helps kids master their emotions with cool games and a safe place to connect with friends!'
-  }
+  },
+  			
+  {
+        slug: '2025-05-11-my-post',
+        title: 'Congrats! HeartBrige Honored with Award!',
+        date: '2025-05-11',
+        thumb: 'static/assets/blog/2025-05-11-thumb.jpg',
+        excerpt: 'From the stunning landscapes of Yunnan to the awards stage, we are absolutely thrilled to announce that HeartBridge has won first-level!'
+   }
   // 若有更多文章，再以逗号 , 添加一个对象
 ];
 
