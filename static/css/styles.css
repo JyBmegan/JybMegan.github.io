@@ -10937,10 +10937,7 @@ p, .lead, .text-body {
 /* ========== 自定义字体覆盖区（放在 styles.css 最底部） ========== */
 
 /* ——— 全局正文 —— */
-body {
-  /* Windows 上叫 SimSun；macOS 上可兼容使用 Songti SC */
-  font-family: "SimSun", "Songti SC", serif, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-}
+
 
 /* ——— 英文标题 —— */
 h1, h2, h3, h4, h5, h6,

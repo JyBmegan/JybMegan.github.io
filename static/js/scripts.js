@@ -38,22 +38,28 @@ function loadConfig() {
 }
 
 // 3. 加载各板块 Markdown
+
 function loadSections() {
   marked.use({ mangle:false, headerIds:false });
   sections.forEach(name => {
-    const md = name === 'traveling' ? 'map.md' : `${name}.md`;
+    const isTravelingSection = (name === 'traveling');
+    const md = isTravelingSection ? 'map.md' : `${name}.md`;
     fetch(`${contentDir}${md}`)
       .then(r => r.ok ? r.text() : Promise.reject(r.status))
       .then(txt => {
-        const html = marked.parse(txt);
-        const id = name === 'traveling' ? 'map-md' : `${name}-md`;
+        // 如果是 traveling 板块，内容本身就是 HTML，无需解析。
+        // 否则，使用 marked 解析 Markdown。
+        const html = isTravelingSection ? txt : marked.parse(txt);
+        
+        const id = isTravelingSection ? 'map-md' : `${name}-md`;
         const container = document.getElementById(id);
         if (container) {
           container.innerHTML = html;
-          if (name === 'traveling') initMap();
+          // 初始化地图的调用保持不变
+          if (isTravelingSection) initMap();
         }
       })
-      .catch(err => console.error('加载 Markdown 失败:', err));
+      .catch(err => console.error(`加载 ${md} 失败:`, err)); // 优化了错误输出
   });
 }
 
