@@ -30,7 +30,7 @@ function renderPosts(containerId) {
           <h5 class="card-title">${p.title}</h5>
           <p class="card-text text-muted">${p.date}</p>
           <p class="card-text">${p.excerpt}</p>
-          <a href="posts/${p.slug}.html" class="mt-auto btn btn-outline-primary">Read more</a>
+          <a href="posts/${p.slug}/${p.slug}.html" class="mt-auto btn btn-outline-primary">Read more</a>
         </div>
       </div>`;
     container.appendChild(col);
