@@ -6,7 +6,7 @@ Feel free to guess which pictures were photoed by Osmo Pocket 3 (Dajiang), Canon
 <div class="content-width">
   <!-- 返回全国地图按钮 -->
   <button id="backChinaBtn" class="btn btn-secondary btn-sm mb-2" style="display: none;">
-    ← 返回全国
+    ← Back
   </button>
 
   <!-- 地图容器 -->
