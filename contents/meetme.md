@@ -18,7 +18,7 @@ Hello! I’m Jiayu Bao (包家瑜), an inquisitive undergrad with a passion for 
 Let’s dive into how my experiences have shaped my research passions—and why I believe the best solutions start where technology meets humanity.
 
 ## Email
-2218403039[at]stu.suda.edu.cn
+2218403039@stu.suda.edu.cn
 
 jiayubao417@gmail.com
 
