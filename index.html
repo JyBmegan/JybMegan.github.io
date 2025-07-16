@@ -89,22 +89,6 @@
 
 </head>
 
-  <!-- 引入依赖：Bootstrap、Marked（你应该已经有了） -->
-  <script src="static/js/bootstrap.bundle.min.js"></script>
-  <script src="static/js/marked.min.js"></script>
-
-  <!-- 引入我们新创建的 blog.js -->
-  <script src="static/js/blog.js"></script>
-  <!-- 只调用，不再声明 posts 或 renderPosts -->
-  <script>
-    // —— 渲染首页博客卡片 ——  
-    renderPosts('home-post-list');
-  </script>
-
-
-</body>
-</html>
-
 
 <body id="page-top">
     <!-- Navigation-->
@@ -297,7 +281,13 @@
 </script>
 -->
 
-
+  <!-- 脚本引用放在这里，紧跟所有内容之后 -->
+  <script src="static/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/marked.min.js"></script>
+  <script src="static/js/blog.js"></script>
+  <script>
+    // 调用渲染，必须在容器加载之后
+    renderPosts('home-post-list');
+  </script>
 </body>
-
 </html>
