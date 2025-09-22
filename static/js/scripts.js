@@ -170,6 +170,8 @@ function loadProvince(name, pinyin) {
   	map: name,
   	layoutCenter: ['50%', '50%'],
   	layoutSize: '85%',
+       center: geo.features[0].properties.cp || [104, 35], // geoJSON 里的 cp 是中心点
+	zoom: 1.2,
   	roam: true,
   	emphasis: {
     		label: { show: true },
