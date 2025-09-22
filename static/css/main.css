@@ -1,5 +1,17 @@
 @import "./styles.css";
 
+:root{
+  --bs-body-font-family: "Mulish", "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 渲染优化（对 Safari 有帮助） */
+body{
+  font-family: var(--bs-body-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
 
 :root{
     --h-title-color:#3948d2;
