@@ -80,12 +80,12 @@ const imageCounts = {
   '440500-guangdong': 9,
   '445100-guangdong': 4,
   '500103-chongqing':  5,
-  '500109-chongqing': 1
+  '500109-chongqing': 1,
   '530100-yunnan': 2,
   '530700-yunnan': 5,
   '532900-yunnan': 4
 
-  	  
+
 };
 
 // 省中⇄拼映射
