@@ -70,7 +70,7 @@ let chart, currentMode = 'china';
 
 // 照片计数 { 'cityCode-provPinyin': count }
 const imageCounts = {
-  '420100-hubei': 4,
+  '420100-hubei': 3,
   '440500-guangdong': 11,
   '445100-guangdong': 4,
   '530100-yunnan': 2,
@@ -80,6 +80,8 @@ const imageCounts = {
   '370200-shandong': 4,
   '530700-yunnan': 5,
   '532900-yunnan': 5,
+  '500103-chongqing':  5,
+  '500109-chongqing': 1
   	  
 };
 
@@ -87,8 +89,7 @@ const imageCounts = {
 const provMap = { '湖北':'hubei', '广东':'guangdong', '云南':'yunnan' , '江苏':'jiangsu', '浙江':'zhejiang', '重庆':'chongqing', '山东':'shandong'};
 
 // 城市编码⇄名映射
-const cityMap = { '420100':'武汉市','440500':'汕头市','445100':'潮州市','530100':'昆明市' , '320500':'苏州市', '330200':'宁波市', '500100':'重庆市', '370200':'青岛市', '530700':'丽江市', '532900':'大理白族自治州'};
-
+const cityMap = { '420100':'武汉市','440500':'汕头市','445100':'潮州市','530100':'昆明市' , '320500':'苏州市', '330200':'宁波市', '500100':'重庆市', '370200':'青岛市', '530700':'丽江市', '532900':'大理白族自治州', '500103':'渝中区', '500109': '北碚区'}
 // 有照片的省份中文名列表
 const provincesWithPhotos = Array.from(
   new Set(Object.keys(imageCounts).map(k => k.split('-')[1]))
