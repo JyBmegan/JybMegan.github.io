@@ -54,31 +54,34 @@ body{
     background: rgba(0, 0, 0, 0.5);
 }
 
-section header h2, 
+section header h2,
 .section-title {
   font-family: "Newsreader", Georgia, serif;
   font-weight: 700;
-  font-size: 2rem;       /* 比你现在 2.3rem 略小，更稳重 */
+  font-size: 2rem;       /* 统一字号 */
   line-height: 2.6rem;
   color: var(--h-title-color);
   margin-bottom: 1rem;
 }
 
+
 section .main-body h3 {
-  font-family: "Mulish", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Georgia", "Times New Roman", serif;
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.1rem;   /* 比正文稍大，但明显小于一级标题 */
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
 }
 
 
+
 section .main-body {
-  font-size: 1.1rem;
-  line-height: 1.8rem;
+  font-size: 1.25rem;   /* 稍微大一点 */
+  line-height: 2rem;    /* 对应字号的行高 */
   font-weight: 400;
   font-family: inherit; /* 继承 body 的 Mulish */
 }
+
 
 
 .bg-gradient-primary-to-secondary-light {
