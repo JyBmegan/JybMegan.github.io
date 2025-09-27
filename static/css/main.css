@@ -1,7 +1,7 @@
 @import "./styles.css";
 
 :root{
-  --bs-body-font-family: "Mulish", "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --bs-body-font-family: "Mulish", "Helvetica Neue", Arial, sans-serif;
 }
 
 /* 渲染优化（对 Safari 有帮助） */
@@ -11,6 +11,7 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+
 
 
 :root{
@@ -53,20 +54,30 @@ body{
     background: rgba(0, 0, 0, 0.5);
 }
 
-section header h2{
-    font-family: "Kanit", "Newsreader", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-    font-weight: 700; 
-    color: var(--h-title-color);
-    font-size: 2.3rem;
-    line-height: 4rem;
+section header h2, 
+.section-title {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 700;
+  font-size: 2rem;       /* 比你现在 2.3rem 略小，更稳重 */
+  line-height: 2.6rem;
+  color: var(--h-title-color);
+  margin-bottom: 1rem;
+}
+
+section .main-body h3 {
+  font-family: "Mulish", "Helvetica Neue", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
 }
 
 
-section .main-body{
-    font-size: 1.3rem;
-    font-weight: 400;
-    line-height: 2.4rem;
-    font-family: "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+section .main-body {
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+  font-weight: 400;
+  font-family: inherit; /* 继承 body 的 Mulish */
 }
 
 

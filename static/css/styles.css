@@ -11107,9 +11107,10 @@ body {
 }
 
 .contact-form .required {
-  color: #d00;
+  color: #555; /* 深灰色 */
   font-size: 0.9em;
 }
+
 
 .contact-form input,
 .contact-form textarea {
@@ -11144,4 +11145,28 @@ body {
 
 .contact-form button:hover {
   background: #0056b3;
+}
+
+/* 全局正文 */
+body {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #222;
+}
+
+/* 一级标题（比如 Awards） */
+h2, .section-title {
+  font-family: 'Newsreader', Georgia, serif; /* 更加板正 */
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* 二级标题（略小一点） */
+h3 {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
 }
