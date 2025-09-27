@@ -1,12 +1,13 @@
-Upload ing...Too many resorts for me to arrange :)
+Upload ing...Too many resorts for me to arrange :)  
 
-Maybe Guess which pictures were photoed by:
+Maybe Guess which pictures were photoed by:  
 
-1) Osmo Pocket 3 (Dajiang) 
+1) Osmo Pocket 3 (Dajiang)  
 
-2) Canon Camera (and parameter) 
+2) Canon Camera (and parameter)  
 
-3) mobile phone
+3) mobile phone  
+
 
 <!-- contents/map.md -->
 <div class="content-width">
@@ -35,3 +36,4 @@ Maybe Guess which pictures were photoed by:
     </div>
   </div>
 </div>
+
