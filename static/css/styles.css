@@ -11095,21 +11095,5 @@ a.cv-link:hover {
   gap: 8px;
 }
 
-#contact h2::before {
-  content: "✉️"; /* 给 Contact 标题加图标，可换 */
-  font-size: 1em;
-}
-
-
-#awards, #traveling, #contact {
-  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif !important;
-  font-weight: 400;
-}
-
-#awards h2, #traveling h2, #contact h2 {
-  font-weight: 600;
-  font-size: 1.8em;
-}
-
 
 

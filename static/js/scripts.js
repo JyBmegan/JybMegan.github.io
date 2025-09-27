@@ -3,7 +3,7 @@
 // ---------------------------------------------
 
 const contentDir = 'contents/';
-const sections = ['top','meetme','publications','awards','blog','traveling','download'];
+const sections = ['top','meetme','publications','awards','blog','traveling','download','contact'];
 
 window.addEventListener('DOMContentLoaded', () => {
   initNav();
