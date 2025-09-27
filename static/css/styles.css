@@ -11011,4 +11011,85 @@ p, .lead, .text-body {
   background-color: rgba(255, 255, 255, 0.8);
 }
 
+/* 全局统一字体 */
+body {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* 所有标题保持一致 */
+h1, h2, h3, h4, h5 {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 600;  /* 保证比正文粗 */
+}
+
+/* awards 区域 */
+#awards summary {
+  font-size: 1.1em;
+  font-weight: 600;  /* 在 Windows 上更明显 */
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  cursor: pointer;
+  list-style: none;
+}
+
+/* traveling 区域 */
+#traveling {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+}
+
+
+a.cv-link {
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+  border: 1px solid #007bff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+a.cv-link:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.contact-form {
+  max-width: 600px;
+  margin-top: 1em;
+}
+
+.contact-form label {
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  max-width: 600px;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contact-form textarea {
+  height: 150px; /* 比 input 高一些 */
+}
+
+.contact-form button {
+  padding: 10px 18px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background: #0056b3;
+}
 

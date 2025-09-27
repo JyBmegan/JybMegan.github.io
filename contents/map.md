@@ -1,6 +1,12 @@
-Please interact after the page is fully loaded (Reload if no province map there).
+Upload ing...Too many resorts for me to arrange :)
 
-Feel free to guess which pictures were photoed by Osmo Pocket 3 (Dajiang), Canon telephoto lens/ short focal length lens or mobile phone.
+Maybe Guess which pictures were photoed by:
+
+1) Osmo Pocket 3 (Dajiang) 
+
+2) Canon Camera (and parameter) 
+
+3) mobile phone
 
 <!-- contents/map.md -->
 <div class="content-width">
