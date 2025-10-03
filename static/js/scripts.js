@@ -83,22 +83,29 @@ const imageCounts = {
   '500109-chongqing': 1,
   '530100-yunnan': 2,
   '530700-yunnan': 5,
-  '532900-yunnan': 4
+  '532900-yunnan': 4,
+  '152500-neimenggu': 4,
+  '130300-hebei': 2,
+  '341000-anhui': 3
 
 
 };
 
 // 省中⇄拼映射
 const provMap = { 
-'湖北':'hubei',
-'广东':'guangdong', 
-'云南':'yunnan' , 
-'江苏':'jiangsu', 
-'浙江':'zhejiang', 
-'重庆':'chongqing', 
-'山东':'shandong',
-'福建':'fujian',
-'安徽':'anhui'};
+'湖北省':'hubei',
+'广东省':'guangdong', 
+'云南省':'yunnan' , 
+'江苏省':'jiangsu', 
+'浙江省':'zhejiang', 
+'重庆市':'chongqing', 
+'山东省':'shandong',
+'福建省':'fujian',
+'安徽省':'anhui',
+'内蒙古自治区':'neimenggu',
+'河北省':'hebei'
+
+};
 
 // 城市编码⇄名映射
 const cityMap = { 
@@ -116,7 +123,10 @@ const cityMap = {
 	'500109':'北碚区',
 	'330100':'杭州市',
 	'341800':'宣城市',
-	'350200':'厦门市'
+	'350200':'厦门市',
+	'152500':'锡林郭勒盟',
+	'130300':'秦皇岛市',
+	'341000':'黄山市'
 }
 // 有照片的省份中文名列表
 const provincesWithPhotos = Array.from(
