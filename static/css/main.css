@@ -1,198 +1,216 @@
-@import "./styles.css";
+/* ===================================================================
+   SENLI'S CUSTOM STYLESHEET (main.css)
+   这是你网站唯一的自定义样式文件。
+   =================================================================== */
 
-:root{
+/* ===================================================================
+   1. ROOT & GLOBAL STYLES (全局变量和基础样式)
+   =================================================================== */
+
+:root {
+  /* 覆盖 Bootstrap 的默认正文字体 */
   --bs-body-font-family: "Mulish", "Helvetica Neue", Arial, sans-serif;
+  /* 自定义一个主题色，用于标题 */
+  --h-title-color: #3948d2;
 }
 
-/* 渲染优化（对 Safari 有帮助） */
-body{
+body {
   font-family: var(--bs-body-font-family);
+  /* 字体渲染优化 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-
-
-:root{
-    --h-title-color:#3948d2;
+html {
+  /* 修正锚点链接的滚动位置，使其不被固定的导航栏遮挡 */
+  scroll-padding-top: 4.5rem;
 }
 
-.header {
-    border-bottom: solid 2px var(--bs-blue);
-    z-index: 10000;
-}
 
-.bg-bottom {
-    background-color: var(--h-title-color);
-}
+/* ===================================================================
+   2. TYPOGRAPHY (字体排版)
+   - 统一管理所有字体样式，解决冲突。
+   =================================================================== */
 
-.top-section {
-    position: relative;
-    padding: 10rem 0;
-    background-position: center;
-    background-size: cover;
-    height: 25rem;
-}
-
-.top-section h2 {
-    font-weight: 400;
-}
-
-.top-section .top-section-content {
-    position: relative;
-    z-index: 1;
-}
-
-.top-section:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
-
+/* 区块主标题 (如 "PUBLICATIONS", "AWARDS" 等) */
 section header h2,
 .section-title {
   font-family: "Newsreader", Georgia, serif;
   font-weight: 700;
-  font-size: 2rem;       /* 统一字号 */
+  font-size: 2rem;
   line-height: 2.6rem;
   color: var(--h-title-color);
-  margin-bottom: 1rem;
+  margin: 0 auto 1.5rem;
+  max-width: 800px;
+  text-align: center;
 }
 
-
+/* 区块内的次级标题 (h3) */
 section .main-body h3 {
   font-family: "Georgia", "Times New Roman", serif;
   font-weight: 600;
-  font-size: 1.1rem;   /* 比正文稍大，但明显小于一级标题 */
+  font-size: 1.1rem;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
 }
 
-
-
+/* 全局正文内容 */
 section .main-body {
-  font-size: 1.25rem;   /* 稍微大一点 */
-  line-height: 2rem;    /* 对应字号的行高 */
+  font-size: 1.25rem;
+  line-height: 2rem;
   font-weight: 400;
-  font-family: inherit; /* 继承 body 的 Mulish */
+  color: #333;
 }
 
 
+/* ===================================================================
+   3. LAYOUT & NAVIGATION (布局与导航栏)
+   =================================================================== */
 
-.bg-gradient-primary-to-secondary-light {
-    background: linear-gradient(45deg, #fcfcfc, #ffffff) !important;
+/* 整体区块边距 */
+section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
 
-.bg-gradient-primary-to-secondary-gray {
-    background: linear-gradient(45deg, #f0f0f0, #f1f1f1) !important;
+/* 顶部固定导航栏 */
+#mainNav {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #fff;
+  border-bottom: solid 2px var(--bs-blue);
+  z-index: 10000;
+}
+
+#mainNav .navbar-brand,
+#mainNav .nav-link {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important; /* 强制导航栏字体 */
+  font-weight: 600;
+}
+
+#mainNav .navbar-nav .nav-item .nav-link:hover {
+   color: var(--bs-blue);
+}
+#mainNav .navbar-nav .nav-item .nav-link.active {
+  color: var(--bs-primary);
+}
+
+/* 页脚 */
+footer {
+  background-color: var(--h-title-color);
+}
+footer a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+footer a:hover, footer a:active, footer a:focus {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+}
+
+/* 内容区块统一样式 */
+.content-width {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+/* 给 MEET ME 区块主体加一点上边距，避免和头像靠太近 */
+#meetme .main-body {
+  margin-top: 1.5rem;
 }
 
 
+/* ===================================================================
+   4. COMPONENT-SPECIFIC STYLES (特定组件样式)
+   =================================================================== */
 
-.on-top {
-    position: relative;
-    z-index: 10000;
-}
-
-.top-bg {
-    background-position: center;
-    background-size: fill;
-    width: 100%;
-    height: 100%;
-}
-
-.top-bg::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-}
-
-
+/* 头像 */
 #avatar {
     position: relative;
     height: 0;
-    top:min(-65px,max(-100px,calc(-1*100vw/12)));
+    top: min(-65px, max(-100px, calc(-1 * 100vw / 12)));
     max-width: 55em;
     margin: 0 1.5rem 0 0;
     float: right;
     z-index: 9000;
 }
-
 #avatar img {
-    height: max(130px,min(200px,calc(100vw/6)));
+    height: max(130px, min(200px, calc(100vw / 6)));
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
 
-@media screen and (max-width: 991px) {
-    #avatar {
-        margin: 0;
-    }
+/* App 下载徽章 */
+.app-badge {
+  height: 3rem;
 }
 
-/* 地图容器通用样式 */
-.map-box {
-  width: 100%;
-  height: 400px;
-  margin: 20px auto;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+/* 文字渐变效果 */
+.text-gradient {
+  background: -webkit-linear-gradient(#2937f0, #9f1ae2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* 隐藏元素 */
-.hidden {
-  display: none !important;
+/* 旅行地图 */
+#map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
 }
-
-/* 返回按钮样式 */
-.btn-back {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 10;
+#map-container svg,
+#map-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transform: scale(1.2);
+  transform-origin: center;
 }
-
-/* 统一区块标题 */
-.section-title {
-  max-width: 800px;
-  margin: 0 auto 1.5rem;
-  text-align: center;
-}
-
-/* 保证地图容器和其它内容同宽 */
-.content-width {
-  max-width: 800px;    /* 根据你其他板块的文字宽度，调整这个值 */
-  margin: 20px auto;
-}
-
-/* 保持 TRAVELING 标题和其它标题左对齐 */
-
-
-/* 照片 Modal 内的图片样式 */
 #cityGalleryBody img {
   max-width: 90%;
   margin: 10px;
 }
 
-#post-content h2 {
-  border-top: 1px solid #ccc;
-  padding-top: 0.5em;
-  margin-top: 1em;
+/* 联系表单 */
+.contact-form {
+  max-width: 600px;
+}
+.contact-form .form-group {
+  margin-bottom: 1.5rem;
+}
+.contact-form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
 }
 
-/* 字体渲染优化，特别是 Safari */
-body {
-  -webkit-font-smoothing: antialiased; /* Safari */
-  -moz-osx-font-smoothing: grayscale;  /* macOS Firefox */
-  text-rendering: optimizeLegibility;
+/* ===================================================================
+   5. UTILITY & HELPER CLASSES (功能/辅助类)
+   =================================================================== */
+
+/* 背景颜色 */
+#publications, #blog, #download {
+  background-color: #f8f9fa; /* 淡灰色 */
 }
 
+/* ===================================================================
+   6. RESPONSIVE MEDIA QUERIES (响应式布局)
+   =================================================================== */
+
+@media screen and (max-width: 991px) {
+    #avatar {
+        margin: 0;
+        float: none;
+    }
+}
