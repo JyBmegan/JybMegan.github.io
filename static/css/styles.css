@@ -10833,3 +10833,340 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+html {
+  scroll-padding-top: 4.5rem;
+}
+
+.bg-black {
+  background-color: #000 !important;
+}
+
+.font-alt {
+  font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+}
+
+.text-gradient {
+  background: -webkit-linear-gradient(#2937f0, #9f1ae2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+aside,
+section {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.app-badge {
+  height: 3rem;
+}
+
+#mainNav {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #fff;
+}
+#mainNav .navbar-brand {
+  font-family: "Kanit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+#mainNav .navbar-brand:hover, #mainNav .navbar-brand:active {
+  color: #2937f0;
+}
+#mainNav .navbar-toggler {
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  color: #212529;
+}
+#mainNav .navbar-nav .nav-item .nav-link {
+  font-weight: 600;
+  color: #212529;
+}
+#mainNav .navbar-nav .nav-item .nav-link:hover {
+
+   color: var(--bs-blue)
+}
+#mainNav .navbar-nav .nav-item .nav-link.active {
+  color: #2937f0;
+}
+
+
+.user-photo {
+  display: flex;
+  align-items: right;
+  justify-content: right;
+  position: relative;
+}
+
+
+footer a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+footer a:hover, footer a:active, footer a:focus {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: underline;
+}
+
+
+/* —— 全局正文（中英文） —— */
+body {
+  /* 中文走 Noto Sans SC，英文字母走 Helvetica Neue/Helvetica/Arial */
+  font-family: 'Noto Sans SC', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;       /* 默认正文字号 */
+  line-height: 1.5;      /* 行高 */
+}
+
+/* —— 英文标题 —— */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  /* 用 Josefin Sans（模拟 Futura） */
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* —— 如果你有专门的正文选择器，也可以显式声明 —— */
+p, .lead, .text-body {
+  /* 确保段落文字是 Helvetica 系列 */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* ========== 自定义字体覆盖区（放在 styles.css 最底部） ========== */
+
+/* ——— 全局正文 —— */
+
+
+/* ——— 英文标题 —— */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* ——— 段落正文 —— */
+p, .lead, .text-body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+/* 给 MEET ME 区块的主体往下推一点 */
+#meetme .main-body {
+  margin-top: 1.5rem;  /* 你也可以改成 1rem, 2rem，按效果调整 */
+}
+
+/* ========== 导航栏 Section Names 强制用 Helvetica ========== */
+.navbar-brand,
+.nav-link {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+.section-title {
+  max-width: 800px;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+}
+/* 内容宽度与其它板块一致 */
+.content-width {
+  max-width: 800px;    /* 与文字区块同宽，按需调整 */
+  margin: 20px auto;
+}
+
+
+/* Modal 中图片样式 */
+#cityGalleryBody img {
+  max-width: 90%;
+  margin: 10px;
+}
+
+/* 样式：让 map-container 中的地图总能显示在框中居中（水平和垂直） */
+#map-container {
+  display: flex;
+  justify-content: center;  /* 水平居中 */
+  align-items: center;      /* 垂直居中 */
+  overflow: hidden;         /* 防止缩放溢出 */
+  position: relative;
+}
+
+#map-container svg,
+#map-container img {
+  max-width: 100%;     /* 不超出容器宽度 */
+  max-height: 100%;    /* 不超出容器高度 */
+  object-fit: contain; /* 保持缩放比例 */
+  transform: scale(1.2);       /* 放大效果可调 */
+  transform-origin: center;   /* 保证缩放围绕中心 */
+}
+
+/* 淡灰色背景：Publications, Blog, Download */
+#publications,
+#blog,
+#download {
+  background-color: #f8f9fa;
+}
+
+/* 白色透明背景：Meet Me, Awards, Traveling */
+#meet-me,
+#awards,
+#map {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+
+
+
+
+/* awards 区域 */
+#awards summary {
+  font-size: 1.1em;
+  font-weight: 600;  /* 在 Windows 上更明显 */
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  cursor: pointer;
+  list-style: none;
+}
+
+/* traveling 区域 */
+#traveling {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+}
+
+
+a.cv-link {
+  font-weight: 600;
+  color: #007bff;
+  text-decoration: none;
+  border: 1px solid #007bff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+a.cv-link:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.contact-form {
+  max-width: 600px;
+}
+
+.contact-form .form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.contact-form .form-row input,
+.contact-form .form-row textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.contact-form button {
+  padding: 10px 18px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background: #0056b3;
+}
+
+
+/* 所有标题保持一致 */
+h1, h2, h3, h4, h5 {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 600;  /* 保证比正文粗 */
+}
+
+/* 全局统一字体 */
+body {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #333;
+}
+
+.contact-form {
+  max-width: 600px;
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+}
+
+.contact-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.contact-form label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.contact-form .required {
+  color: #555; /* 深灰色 */
+  font-size: 0.9em;
+}
+
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form .name-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.contact-form .name-field {
+  flex: 1;
+}
+
+.contact-form button {
+  padding: 10px 18px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background: #0056b3;
+}
+
+/* 全局正文 */
+body {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #222;
+}
+
+/* 一级标题（比如 Awards） */
+h2, .section-title {
+  font-family: 'Newsreader', Georgia, serif; /* 更加板正 */
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* 二级标题（略小一点） */
+h3 {
+  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
