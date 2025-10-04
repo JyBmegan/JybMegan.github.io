@@ -93,17 +93,17 @@ const imageCounts = {
 
 // 省中⇄拼映射
 const provMap = { 
-'湖北省':'hubei',
-'广东省':'guangdong', 
-'云南省':'yunnan' , 
-'江苏省':'jiangsu', 
-'浙江省':'zhejiang', 
-'重庆市':'chongqing', 
-'山东省':'shandong',
-'福建省':'fujian',
-'安徽省':'anhui',
-'内蒙古自治区':'neimenggu',
-'河北省':'hebei'
+'湖北':'hubei',
+'广东':'guangdong', 
+'云南':'yunnan' , 
+'江苏':'jiangsu', 
+'浙江':'zhejiang', 
+'重庆':'chongqing', 
+'山东':'shandong',
+'福建':'fujian',
+'安徽':'anhui',
+'内蒙':'neimenggu',
+'河北':'hebei'
 
 };
 
