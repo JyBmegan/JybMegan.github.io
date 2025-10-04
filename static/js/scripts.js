@@ -102,7 +102,7 @@ const provMap = {
 '山东':'shandong',
 '福建':'fujian',
 '安徽':'anhui',
-'内蒙':'neimenggu',
+'内蒙古':'neimenggu',
 '河北':'hebei'
 
 };

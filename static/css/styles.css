@@ -11155,19 +11155,33 @@ body {
   color: #222;
 }
 
-/* 一级标题（比如 Awards） */
-h2, .section-title {
-  font-family: 'Newsreader', Georgia, serif; /* 更加板正 */
-  font-weight: 700;
-  font-size: 2rem;
-  margin-bottom: 1rem;
+/* 一级标题 */
+h2 {
+  font-family: Arial, Helvetica, sans-serif; /* 正式无衬线 */
+  font-weight: 600; /* 稍粗，保持正式 */
+  font-size: 1.8rem; /* 稍微收敛，不要太大 */
+  letter-spacing: 0.5px;
 }
 
-/* 二级标题（略小一点） */
+
+/* 二级标题 */
 h3 {
-  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 600;
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: 1.25rem; /* 比 h2 小一些 */
+  margin-top: 1.2em;
+  margin-bottom: 0.6em;
+}
+
+
+.en-name {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 正文内容统一字体（除 contact 外） */
+section:not(#contact) {
+  font-family: 'Mulish', Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
