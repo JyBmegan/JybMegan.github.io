@@ -11015,21 +11015,6 @@ p, .lead, .text-body {
 
 
 
-/* awards 区域 */
-#awards summary {
-  font-size: 1.1em;
-  font-weight: 600;  /* 在 Windows 上更明显 */
-  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
-  cursor: pointer;
-  list-style: none;
-}
-
-/* traveling 区域 */
-#traveling {
-  font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 400;
-}
-
 
 a.cv-link {
   font-weight: 600;
