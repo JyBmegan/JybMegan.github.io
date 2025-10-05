@@ -221,17 +221,17 @@ section .main-body h3 {
 /* 正文统一（除 contact） */
 section:not(#contact) .main-body {
   font-family: "Mulish", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  font-size: 1rem;
+  font-size: 1.1 rem;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-/* 特殊英文名（如 Jiayu Bao） */
+/* 英文名 */
 .en-name {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 600;
+  font-weight: 800;
   -webkit-font-smoothing: antialiased;
 }
 
