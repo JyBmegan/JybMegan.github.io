@@ -222,13 +222,13 @@ section:not(#contact) .main-body,
 section:not(#contact) .main-body * {
   font-family: "Mulish", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-size: 1.1rem;
-  font-weight: 500; /* 让 Safari 不显得过细 */
+  font-weight: 500; 
   line-height: 1.7;
-  background-color: #fff; /* 让字体在同色背景上渲染一致 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+
 
 /* 英文名 */
 .en-name {
