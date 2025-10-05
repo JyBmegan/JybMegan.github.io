@@ -218,8 +218,7 @@ section .main-body h3 {
   -moz-osx-font-smoothing: grayscale;
 }
 
-section:not(#contact) .main-body,
-section:not(#contact) .main-body * {
+section.main-body {
   font-family: "Mulish", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-size: 1.1rem;
   font-weight: 500; 
@@ -229,6 +228,16 @@ section:not(#contact) .main-body * {
   text-rendering: optimizeLegibility;
 }
 
+section.main-body p,
+section.main-body li,
+section.main-body span,
+section.main-body a {
+  font-family: "Mulish", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 
 /* 英文名 */
 .en-name {
