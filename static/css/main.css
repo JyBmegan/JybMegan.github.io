@@ -203,7 +203,7 @@ section header h2,
 .section-title {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 2rem;
   letter-spacing: 0.3px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -211,9 +211,9 @@ section header h2,
 
 /* === 二级标题（Markdown ##） === */
 section .main-body h3 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  font-weight: 600;
-  font-size: 1.25rem;
+  font-family: "Mulish", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-weight: 500;
+  font-size: 1.2rem;
   margin-top: 1.3em;
   margin-bottom: 0.6em;
   color: #222;
@@ -224,10 +224,9 @@ section .main-body h3 {
 /* === 正文统一（除 contact） === */
 section:not(#contact) .main-body {
   font-family: "Mulish", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 500;
   line-height: 1.7;
-  background-color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -249,7 +248,7 @@ section:not(#contact) .main-body a {
 .en-name {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 2rem;
   -webkit-font-smoothing: antialiased;
 }
 
