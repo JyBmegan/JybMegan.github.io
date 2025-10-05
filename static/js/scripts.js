@@ -70,23 +70,33 @@ let chart, currentMode = 'china';
 
 // 照片计数 { 'cityCode-provPinyin': count }
 const imageCounts = {
+  '130300-hebei': 2,
+  '152500-neimenggu': 4,
+  '220600-jilin': 6,
+  '310115-shanghai': 4,
   '320500-jiangsu': 2,
-  '330100-zhejiang': 1,
+  '330100-zhejiang': 2,
   '330200-zhejiang': 5,
+  '330400-zhejiang': 4,
+  '341000-anhui': 3,
   '341800-anhui': 1,
   '350200-fujian': 2,
+  '361100-jiangxi': 1,
   '370200-shandong': 3,
   '420100-hubei': 4,
   '440500-guangdong': 7,
   '445100-guangdong': 4,
+  '450600-guangxi': 5,
+  '460200-hainan': 2,
   '500103-chongqing':  4,
   '500109-chongqing': 1,
   '530100-yunnan': 2,
   '530700-yunnan': 5,
-  '532900-yunnan': 4,
-  '152500-neimenggu': 4,
-  '130300-hebei': 2,
-  '341000-anhui': 3
+  '532900-yunnan': 4
+
+
+
+
 
 
 };
@@ -103,7 +113,12 @@ const provMap = {
 '福建':'fujian',
 '安徽':'anhui',
 '内蒙古':'neimenggu',
-'河北':'hebei'
+'河北':'hebei',
+'吉林':'jilin',
+'海南':'hainan',
+'上海':'shanghai',
+'广西':'guangxi',
+'江西':'jiangxi'
 
 };
 
@@ -126,7 +141,13 @@ const cityMap = {
 	'350200':'厦门市',
 	'152500':'锡林郭勒盟',
 	'130300':'秦皇岛市',
-	'341000':'黄山市'
+	'341000':'黄山市',
+	'220600':'白山市',
+	'460200':'三亚市',
+	'330400':'嘉兴市',
+	'310115':'浦东新区',
+	'450600':'防城港市',
+	'361100':'上饶市'
 }
 // 有照片的省份中文名列表
 const provincesWithPhotos = Array.from(
