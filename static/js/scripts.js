@@ -75,6 +75,8 @@ const imageCounts = {
   '220600-jilin': 6,
   '310115-shanghai': 4,
   '320500-jiangsu': 2,
+  '320700-jiangsu': 4,
+  '321000-jiangsu':5,
   '330100-zhejiang': 2,
   '330200-zhejiang': 5,
   '330400-zhejiang': 4,
@@ -147,7 +149,9 @@ const cityMap = {
 	'330400':'嘉兴市',
 	'310115':'浦东新区',
 	'450600':'防城港市',
-	'361100':'上饶市'
+	'361100':'上饶市',
+	'320700':'连云港市',
+	'321000':'扬州市'
 }
 // 有照片的省份中文名列表
 const provincesWithPhotos = Array.from(
