@@ -70,10 +70,15 @@ let chart, currentMode = 'china';
 
 // 照片计数 { 'cityCode-provPinyin': count }
 const imageCounts = {
+  '110101-beijing': 2,
+  '110108-beijing': 1,
   '130300-hebei': 2,
   '152500-neimenggu': 4,
   '220600-jilin': 6,
   '310115-shanghai': 4,
+  '310118-shanghai': 1,
+  '320100-jiangsu': 1,
+  '320200-jiangsu': 3,
   '320500-jiangsu': 2,
   '320700-jiangsu': 4,
   '321000-jiangsu':5,
@@ -88,9 +93,11 @@ const imageCounts = {
   '420100-hubei': 4,
   '440500-guangdong': 7,
   '445100-guangdong': 4,
-  '450600-guangxi': 5,
+  '450100-guangxi': 2,
+  '450600-guangxi': 9,
   '460200-hainan': 2,
   '500103-chongqing':  4,
+  '500108-chongqing': 1,
   '500109-chongqing': 1,
   '530100-yunnan': 2,
   '530700-yunnan': 5,
@@ -120,7 +127,8 @@ const provMap = {
 '海南':'hainan',
 '上海':'shanghai',
 '广西':'guangxi',
-'江西':'jiangxi'
+'江西':'jiangxi',
+'北京':'beijing'
 
 };
 
@@ -151,7 +159,16 @@ const cityMap = {
 	'450600':'防城港市',
 	'361100':'上饶市',
 	'320700':'连云港市',
-	'321000':'扬州市'
+	'321000':'扬州市',
+	'500108':'南岸区',
+	'320200':'无锡市',
+	'450100':'南宁市',
+	'320100':'南京市',
+	'310118':'青浦区',
+	'110108':'海淀区',
+	'110101':'东城区'
+	
+	
 }
 // 有照片的省份中文名列表
 const provincesWithPhotos = Array.from(
