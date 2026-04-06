@@ -1,5 +1,9 @@
-## 🎓 Scholarships
-
+## Scholarships
+- 2025-12 : National Scholarship
+- 2025-12 : Lideshuren Scholarship (Award for Excellence in Moral Education)   
+- 2025-12 : Soochow Univ. 2024 Outstanding Academic Achievement (First-Class Scholarship / University)  
+- 2025-12 : Soochow Univ. 2024 Innovation & Entrepreneurship (First-Class Scholarship / University)  
+- 2025-12 : Soochow Univ. 2024 Comprehensive Scholarship (First-Class Scholarship / University)  
 - 2024-12 : National Scholarship
 - 2024-12 : Soochow Univ. Xu Zengshou Endowed Scholarship (Endowed Scholarship / University)  
 - 2024-12 : Soochow Univ. 2024 Outstanding Academic Achievement (First-Class Scholarship / University)  
@@ -10,8 +14,9 @@
 - 2023-12 : Soochow Univ. 2023 Outstanding Academic Achievement (First-Class Scholarship / University)  
 - 2023-12 : Soochow Univ. 2023 Social Work Scholarship (Social Work Scholarship / University)  
 
-## 🏅 Honors
-
+## Honors
+- 2025-12 : Soochow Univ. 2024 Merit Student  
+- 2025-10 : Soochow University Academic and Research Pacesetter 
 - 2025-08 : Soochow Univ. 2024–25 Outstanding Leader, Student Associations Union  
 - 2025-05 : Soochow Univ. 2024 Outstanding Chun-Tsung Scholar 
 - 2025-03 : Soochow Univ. Outstanding Communist Youth League Member  
@@ -21,7 +26,7 @@
 - 2024-04 : Soochow Univ.  Chun-Tsung Scholar   
 - 2023-11 : Soochow Univ. 2023 Summer Social Practice “Advanced Individual”  
 
-## 🔬 Academic & Research
+## Academic & Research
 
 - 2025-07 : Global Competition on Design for Future Education (Excellent Creativity Award / National)
 - 2025-05 : National Undergraduate Innovation & Entrepreneurship Forum in Psychology (First Prize / National)  
@@ -32,7 +37,7 @@
 - 2024-05 : 3rd National Undergraduate Psychology Counseling Teaching Innovation Showcase (Second Prize / National)
 - 2024-05 : 3rd Tsinghua Social Science Undergrad Forum (Excellence Award / University)
 
-## 🚀 Innovation & Entrepreneurship
+## Innovation & Entrepreneurship
 
 - 2024-12 : Soochow Univ. 19th Student Career Planning Competition (Third Prize / University)  
 - 2024-11 : Soochow Univ. 2024 Innovation & Entrepreneurship Creative Competition (Third Prize / University)  

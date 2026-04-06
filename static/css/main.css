@@ -1,255 +1,611 @@
-@import "./styles.css";
+/* =========================================
+   ULTIMATE ACADEMIC THEME (Megan Edition)
+   Light & Dark Mode + Premium Typography
+   ========================================= */
 
-:root{
-  --bs-body-font-family: "Mulish", "Helvetica Neue", Arial, sans-serif;
+/* 1. 引入顶级学术感字体：Lora (优雅标题) + Inter (极简正文) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@350;400;500;600&family=Lora:ital,wght@0,500;0,600;1,500&display=swap');
+
+:root {
+    --bg-main: #ffffff;         
+    --bg-sidebar: #fcfcfc;      
+    --text-main: #333333;       
+    --text-muted: #6c757d;      
+    --title-color: #111111;     
+    --link-color: #495057;
+    --link-hover: #0d6efd;
+    --border-color: #eaeaea;
+    --input-bg: #ffffff;        
+    --card-bg: #ffffff;         
+    
+    --font-title: 'Lora', serif;       
+    --font-body: 'Inter', sans-serif;  
 }
 
-/* 渲染优化（对 Safari 有帮助） */
-body{
-  font-family: var(--bs-body-font-family);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+[data-theme='dark'] {
+    /* 1. 将原本的黑色改为你的深蓝色 */
+    --bg-main: #151e2f;       /* 主内容区背景 */
+    --bg-sidebar: #111827;    /* 侧边栏可以稍微深一点点，增加层次感，或者也用 #151e2f */
+    
+    /* 2. 确保文字颜色是柔和的浅灰色，不要死白 */
+    --text-main: #e5e7eb;     
+    --text-muted: #9ca3af;
+    --title-color: #f9fafb;
+    
+    /* 3. 边框颜色也要调暗，不然在深蓝背景下太亮 */
+    --border-color: rgba(255, 255, 255, 0.1); 
+    
+    /* 4. 如果有卡片，让卡片背景稍微比主背景亮一点点，方便区分 */
+    --card-bg: #1f2937; 
 }
 
-
-
-:root{
-    --h-title-color:#3948d2;
+/* 🌟 特别针对主页侧边栏和整体背景的强制修正 */
+[data-theme='dark'] body, 
+[data-theme='dark'] .sidebar, 
+[data-theme='dark'] main {
+    background-color: #151e2f !important;
 }
 
-.header {
-    border-bottom: solid 2px var(--bs-blue);
-    z-index: 10000;
+/* 🌟 如果你的卡片（比如 Publication 或 Blog 卡片）显得太突兀 */
+[data-theme='dark'] .card {
+    background-color: #1f2937 !important; /* 比背景蓝稍亮一点的深蓝灰色 */
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.bg-bottom {
-    background-color: var(--h-title-color);
+/* =========================================
+   2. 全局基础与防偏移
+   ========================================= */
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden; 
+    background-color: var(--bg-main) !important;
+    color: var(--text-main) !important;
+    font-family: var(--font-body) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
 }
 
-.top-section {
-    position: relative;
-    padding: 10rem 0;
-    background-position: center;
-    background-size: cover;
-    height: 25rem;
+body section, body section[id], .bg-light, .main-body {
+    background-color: transparent !important;
+    background: none !important;
 }
 
-.top-section h2 {
-    font-weight: 400;
+.sidebar {
+    background-color: var(--bg-sidebar) !important;
+    border-right: 1px solid var(--border-color) !important;
+    transition: background-color 0.3s ease;
 }
 
-.top-section .top-section-content {
-    position: relative;
-    z-index: 1;
+/* =========================================
+   3. 区块紧凑化 & 短横线分隔符 (高权重覆盖)
+   ========================================= */
+body main section {
+    /* 【修改】：大幅缩减每个板块顶部的留白，从 2rem 降到 1rem */
+    padding-top: 1rem !important;    
+    padding-bottom: 0.5rem !important;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
 }
 
-.top-section:before {
+body main section:not(#contact)::after {
     content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
+    display: block;
+    width: 60px;            
+    height: 3px;            
+    background-color: var(--border-color);
+    /* 【修改】：缩减短横线上下方的留白，让下一个板块紧紧贴上来 */
+    margin: 1.5rem auto 0 auto; 
+    border-radius: 3px;
+}
+
+/* =========================================
+   4. 绝美字体排版 (精准打击 Markdown 标签)
+   ========================================= */
+/* 一级大标题 (固定在 header 里的 ABOUT ME 等) */
+body section header h2, .section-title {
+    font-family: var(--font-title) !important;
+    font-weight: 600 !important;
+    font-size: 1.8rem !important; 
+    color: var(--title-color) !important;
+    border: none !important;      
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    margin-bottom: 0.5rem !important;
+    text-align: center !important; 
+}
+
+/* 二级/三级子标题 (拦截 Markdown 渲染出的 h2/h3/h4) */
+body section .main-body h2,
+body section .main-body h3,
+body section .main-body h4 {
+    font-family: var(--font-body) !important;
+    font-weight: 600 !important;
+    font-size: 1.15rem !important; 
+    color: var(--title-color) !important;
+    /* 【修改】：让二级标题更贴近上文，从 1.5rem 降到 1rem */
+    margin-top: 1rem !important;            
+    margin-bottom: 0.4rem !important;
+    border: none !important;
+    text-align: left !important; 
+    line-height: 1.4 !important;
+}
+
+/* 正文美化 */
+body .main-body p, body .main-body li {
+    font-family: var(--font-body) !important;
+    font-size: 1rem !important;
+    /* 【修改】：收紧行高，从 1.75 降到 1.6 */
+    line-height: 1.6 !important; 
+    color: var(--text-main) !important;
+    /* 【修改】：大幅缩减段落之间的空隙，从 1rem 降到 0.5rem */
+    margin-bottom: 0.5rem !important;
+    font-weight: 350 !important;
+}
+
+body .main-body strong, body b {
+    font-weight: 600 !important;
+    color: var(--title-color) !important; 
+}
+
+/* =========================================
+   5. Contact 表单修复 (完美适配黑夜)
+   ========================================= */
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto; 
+}
+.contact-form .form-group, .contact-form .form-row {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+.contact-form label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--title-color);
+}
+.contact-form input, .contact-form textarea {
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    transition: all 0.2s ease;
+}
+.contact-form input:focus, .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--link-hover);
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+.contact-form button {
+    padding: 10px 24px;
+    background-color: var(--link-hover);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    font-family: var(--font-body);
+}
+.contact-form button:hover {
+    background-color: #0b5ed7;
 }
 
-section header h2,
-.section-title {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 700;
-  font-size: 2rem;       /* 统一字号 */
-  line-height: 2.6rem;
-  color: var(--h-title-color);
-  margin-bottom: 1rem;
+/* =========================================
+   6. Blog 和 Map 适配黑夜模式
+   ========================================= */
+.card {
+    background-color: var(--card-bg) !important;
+    border-color: var(--border-color) !important;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.card-title { color: var(--title-color) !important; font-family: var(--font-title) !important;}
+.card-text { color: var(--text-main) !important; }
+
+/* 地图黑夜模式暗黑反色滤镜 */
+[data-theme="dark"] .leaflet-layer,
+[data-theme="dark"] .leaflet-control-zoom-in,
+[data-theme="dark"] .leaflet-control-zoom-out,
+[data-theme="dark"] .leaflet-control-attribution {
+    filter: invert(1) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+.map-box { border-color: var(--border-color) !important; }
+
+/* =========================================
+   7. 侧边栏细节及悬浮按钮
+   ========================================= */
+.sidebar h4 { color: var(--title-color) !important; font-family: var(--font-title) !important; }
+.sidebar .text-muted, .text-muted { color: var(--text-muted) !important; }
+.nav-link, .text-link-hover {
+    color: var(--link-color) !important;
+    transition: color 0.2s;
+    text-decoration: none !important;
+}
+.nav-link:hover, .text-link-hover:hover {
+    color: var(--link-hover) !important;
+}
+
+.avatar-container img {
+    border-color: var(--bg-main) !important;
+    transition: border-color 0.3s;
+}
+
+/* 右上角悬浮主题切换按钮 */
+.theme-toggle-btn {
+    position: fixed;
+    top: 20px;       
+    right: 30px;     
+    z-index: 1050;   
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-sidebar);
+    color: var(--title-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+.theme-toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+/* =========================================
+   8. 针对 Awards (Honors) 板块单独收紧间距
+   ========================================= */
+body section#awards .main-body p, 
+body section#awards .main-body li {
+    margin-bottom: 0.15rem !important; /* 极小的段后距，几乎等同于行距 */
+    line-height: 1.5 !important;       /* 行高也稍微收紧一点点 */
+}
+
+/* 如果你的 Markdown 里是用无序列表 (-) 写的，去掉列表自带的底边距 */
+body section#awards .main-body ul {
+    margin-bottom: 0.5rem !important; 
+}
+
+/* =========================================
+   9. Contact 表单输入框间距强制对齐
+   ========================================= */
+/* 统一所有 Label（标题）与下方输入框的距离 */
+.contact-form label {
+    display: block !important;
+    margin-bottom: 0.4rem !important; /* 强制统一距离 */
+    margin-top: 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* 统一输入框与下一个 Label 的距离 */
+.contact-form input,
+.contact-form textarea {
+    margin-top: 0 !important;
+    margin-bottom: 1.2rem !important; /* 强制统一输入框底部的留白 */
+}
+
+/* 如果 First Name 和 Last Name 在并排的一行，消除父级干扰 */
+.contact-form .name-row,
+.contact-form .form-group, 
+.contact-form .form-row {
+    margin-bottom: 0 !important; /* 由 input 自己的 margin-bottom 来控制间距，父级不插手 */
+}
+
+.contact-form .name-field {
+    margin-bottom: 0 !important;
+}
+
+/* =========================================
+   10. 增加地图 (Map) 与上方文字的呼吸感
+   ========================================= */
+/* 定位地图的容器，强制往下推一点 */
+.map-box, 
+#map-container {
+    margin-top: 2rem !important;    /* 距离上方文字空开一段距离 */
+    margin-bottom: 1rem !important; /* 距离下方横线空开一段距离 */
+}
+
+/* =========================================
+   11. 全域强制字体覆盖 (修复 Map 与独立 Blog 页面)
+   ========================================= */
+
+/* --- 修复 Traveling 地图内部字体 --- */
+/* 强制覆盖 Leaflet 插件自带的流氓字体 */
+.leaflet-container, 
+.leaflet-popup-content, 
+.leaflet-control {
+    font-family: var(--font-body) !important;
+    font-size: 0.95rem !important;
+    color: var(--text-main) !important;
+}
+/* 地图气泡里如果有标题，稍微加粗 */
+.leaflet-popup-content b, 
+.leaflet-popup-content strong {
+    font-weight: 600 !important;
+    color: var(--title-color) !important;
+}
+
+/* --- 修复主页 Blog 卡片字体 --- */
+.card-title {
+    font-family: var(--font-title) !important;
+    font-weight: 600 !important;
+}
+.card-text, .card-text p {
+    font-family: var(--font-body) !important;
+    font-weight: 300 !important; /* 跟随你变细的正文设定 */
+}
+
+/* --- 修复点进去的单独 Blog 页面 --- */
+/* 因为独立博客页没有 .main-body，所以我们增加通用标签和 #post-content 的覆盖 */
+#post-content p, 
+#post-content li, 
+article p, 
+article li {
+    font-family: var(--font-body) !important;
+    font-size: 1rem !important;
+    line-height: 1.6 !important; 
+    color: var(--text-main) !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 300 !important; /* 保持轻盈感 */
+}
+
+#post-content strong, 
+#post-content b,
+article strong,
+article b {
+    font-weight: 600 !important;
+    color: var(--title-color) !important;
+}
+
+/* 独立博客里的一级大标题（文章名） */
+#post-content h1, 
+article h1 {
+    font-family: var(--font-title) !important;
+    font-weight: 600 !important;
+    font-size: 2rem !important;
+    color: var(--title-color) !important;
+    margin-bottom: 1.5rem !important;
+    border-bottom: 2px solid var(--border-color) !important; /* 加一条高级感的横线 */
+    padding-bottom: 0.5rem;
+}
+
+/* 独立博客里的二级/三级标题 (文章内的小标题) */
+#post-content h2, #post-content h3, #post-content h4,
+article h2, article h3, article h4 {
+    font-family: var(--font-body) !important;
+    font-weight: 600 !important;
+    font-size: 1.25rem !important; 
+    color: var(--title-color) !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
+    border: none !important;
+}
+
+/* =========================================
+   12. 终极字体镇压 (强杀 style.css 残留) & Blog 衬线化
+   ========================================= */
+
+/* --- 镇压 Traveling 等所有一级大标题 --- */
+body#page-top main section header h2, 
+body#page-top .section-title {
+    font-family: var(--font-title) !important; /* 强制生效 Lora 衬线体 */
+    font-weight: 600 !important;
+    /* text-transform: uppercase !important;      全大写更有碑文感 */
+    letter-spacing: 1.5px !important;          /* 稍微拉开字间距，呼吸感拉满 */
+    color: var(--title-color) !important;
+}
+
+/* --- 镇压 Traveling 内部 Markdown 渲染出的标题 --- */
+body#page-top main #map-md h2,
+body#page-top main #map-md h3 {
+    font-family: var(--font-title) !important; /* 让地图上方的副标题也变成衬线体 */
+}
+
+/* --- Blog 模块高级感改造 --- */
+/* 博客卡片标题：绝美衬线体 */
+body#page-top #blog .card-title,
+body#page-top #home-post-list .card-title {
+    font-family: var(--font-title) !important;
+    font-weight: 600 !important;
+    font-size: 1.35rem !important;
+    color: var(--title-color) !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.8rem !important;
+}
+
+/* 博客卡片日期与摘要：保持纤细无衬线体，形成对比美 */
+body#page-top #blog .card-text,
+body#page-top #home-post-list .card-text {
+    font-family: var(--font-body) !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    font-weight: 300 !important; /* 保持纤细感 */
+    color: var(--text-muted) !important;
+}
+
+/* 博客卡片底部的 "Read more" 按钮微调 */
+body#page-top #blog .btn-outline-primary {
+    font-family: var(--font-body) !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+}
+
+/* =========================================
+   ✨ Blog 模块专属美化 (主页卡片 + 文章内页)
+   ========================================= */
+
+/* --- 1. 主页 Blog 卡片排版优化 --- */
+#blog .card {
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px !important; /* 更柔和的圆角 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+    background-color: var(--bg-main) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    overflow: hidden; /* 确保图片不超出去 */
+}
+
+/* 卡片悬停时的轻盈悬浮效果 */
+#blog .card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 博客卡片标题：学术风衬线体 */
+#blog .card-title {
+    font-family: var(--font-title) !important; /* Lora 衬线体 */
+    font-weight: 600 !important;
+    font-size: 1.4rem !important;
+    line-height: 1.35 !important;
+    color: var(--title-color) !important;
+    margin-bottom: 0.8rem !important;
+    letter-spacing: 0.2px !important;
+}
+
+/* 博客卡片摘要：清晰的无衬线体 */
+#blog .card-text {
+    font-family: var(--font-body) !important; /* Inter 无衬线体 */
+    font-size: 0.95rem !important;
+    color: var(--text-muted) !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* --- 2. 独立博客文章页 (Post) 阅读体验优化 --- */
+/* 限制文章最大宽度，760px 是公认最舒适的阅读宽度 */
+#post-content, article {
+    max-width: 1000px !important; 
+    margin: 0 auto !important; 
+    padding: 2rem 15px !important;
+}
+
+/* 文章主标题 (H1) */
+#post-content h1, article h1 {
+    font-family: var(--font-title) !important;
+    font-weight: 700 !important;
+    font-size: 2.5rem !important; /* 大气饱满 */
+    color: var(--title-color) !important;
+    line-height: 1.3 !important;
+    margin-bottom: 2rem !important;
+    text-align: center !important; /* 标题居中更有仪式感 */
+    border: none !important;
+}
+
+/* 文章二级/三级子标题 */
+#post-content h2, #post-content h3,
+article h2, article h3 {
+    font-family: var(--font-title) !important; /* 文章内部的小标题也用衬线体，更有质感 */
+    font-weight: 600 !important;
+    color: var(--title-color) !important;
+    margin-top: 2.5rem !important; /* 距离上文远一点 */
+    margin-bottom: 1rem !important; /* 距离下文近一点 */
+    border-bottom: 1px solid var(--border-color) !important; /* 加上极其微弱的分割线 */
+    padding-bottom: 0.5rem !important;
+}
+
+/* 文章正文段落 */
+#post-content p, #post-content li,
+article p, article li {
+    font-family: var(--font-body) !important;
+    font-size: 0.8rem !important; /*独立阅读时字号稍微放大一点点 */
+    line-height: 1.85 !important; /* 舒展的行高 */
+    color: var(--text-main) !important;
+    margin-bottom: 1.5rem !important; /* 段落间距拉开 */
+    font-weight: 400 !important;
+}
+
+/* 引用块 (Blockquote) 美化 */
+#post-content blockquote, article blockquote {
+    border-left: 4px solid var(--link-hover) !important;
+    padding-left: 1rem !important;
+    margin-left: 0 !important;
+    font-style: italic !important;
+    color: var(--text-muted) !important;
+}
+
+/* 文章内的图片居中并加圆角 */
+#post-content img, article img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 8px !important;
+    margin: 1.5rem auto !important;
+    display: block !important;
 }
 
 
-section .main-body h3 {
-  font-family: "Georgia", "Times New Roman", serif;
-  font-weight: 600;
-  font-size: 1.1rem;   /* 比正文稍大，但明显小于一级标题 */
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
+/* =========================================
+   SIDEBAR BRIGHTNESS & LINK COLOR (修正版)
+   ========================================= */
+
+[data-theme='dark'] .sidebar .nav-link, 
+[data-theme='dark'] #mainNav .nav-link {
+    color: #e5e7eb !important; 
+    /* 🌟 删掉了这里的 Times New Roman，让它自动读取你默认的导航字体 */
+    transition: all 0.2s ease;
 }
 
-
-
-section .main-body {
-  font-size: 1.25rem;   /* 稍微大一点 */
-  line-height: 2rem;    /* 对应字号的行高 */
-  font-weight: 400;
-  font-family: inherit; /* 继承 body 的 Mulish */
+/* 确保悬停和激活状态是纯白的 */
+[data-theme='dark'] .sidebar .nav-link:hover,
+[data-theme='dark'] .sidebar .nav-link.active,
+[data-theme='dark'] .navbar-brand {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+/* 3. 针对侧边栏内的特殊链接或图标 */
+[data-theme='dark'] .sidebar a,
+[data-theme='dark'] .sidebar .bi {
+    color: #e5e7eb !important;
 }
 
-
-
-.bg-gradient-primary-to-secondary-light {
-    background: linear-gradient(45deg, #fcfcfc, #ffffff) !important;
+[data-theme='dark'] .sidebar a:hover {
+    color: #ffffff !important;
 }
 
-.bg-gradient-primary-to-secondary-gray {
-    background: linear-gradient(45deg, #f0f0f0, #f1f1f1) !important;
+/* 4. 激活项的小修饰：可以加一个微弱的背景色，让它更有层次感 */
+[data-theme='dark'] .sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 4px;
 }
 
-
-
-.on-top {
-    position: relative;
-    z-index: 10000;
+[data-theme='dark'] .sidebar, 
+[data-theme='dark'] #mainNav {
+    background-color: #0d182b !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-.top-bg {
-    background-position: center;
-    background-size: fill;
-    width: 100%;
-    height: 100%;
+/* =========================================
+   🌟 夜间模式：精确背景色与绝美冰蓝陆地
+   ========================================= */
+
+/* 1. 精确控制背景色 */
+[data-theme='dark'] .sidebar-map-container {
+    background-color: #0d182b !important; /* 🌟 你指定的精确深色背景 */
+    border-radius: 8px; /* 加一点微小的圆角，让边缘更柔和高级 */
+    padding: 5px 0; /* 上下留点呼吸感 */
 }
 
-.top-bg::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+/* 2. 让地图底色变透明，并把陆地变成发光的冰蓝色 */
+[data-theme='dark'] .sidebar-map-container > * {
+    /* 魔法原理解析：
+       invert(1): 白底变黑，原本的绿色陆地变成紫色
+       hue-rotate(250deg): 把紫色旋转成绝美的“霓虹青/冰蓝色”
+       brightness(1.5): 提高亮度，产生发光感
+    */
+    filter: invert(1) hue-rotate(250deg) brightness(1.5) contrast(1.2) !important;
+    
+    /* 滤去反转后产生的纯黑色，完美露出背后的 #0d182b */
+    mix-blend-mode: screen !important; 
+    
+    opacity: 0.85 !important;
+    transition: opacity 0.3s ease;
 }
 
-
-#avatar {
-    position: relative;
-    height: 0;
-    top:min(-65px,max(-100px,calc(-1*100vw/12)));
-    max-width: 55em;
-    margin: 0 1.5rem 0 0;
-    float: right;
-    z-index: 9000;
+/* 3. 鼠标悬停时完全亮起 */
+[data-theme='dark'] .sidebar-map-container:hover > * {
+    opacity: 1 !important;
 }
-
-#avatar img {
-    height: max(130px,min(200px,calc(100vw/6)));
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-}
-
-@media screen and (max-width: 991px) {
-    #avatar {
-        margin: 0;
-    }
-}
-
-/* 地图容器通用样式 */
-.map-box {
-  width: 100%;
-  height: 400px;
-  margin: 20px auto;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* 隐藏元素 */
-.hidden {
-  display: none !important;
-}
-
-/* 返回按钮样式 */
-.btn-back {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 10;
-}
-
-/* 统一区块标题 */
-.section-title {
-  max-width: 800px;
-  margin: 0 auto 1.5rem;
-  text-align: center;
-}
-
-/* 保证地图容器和其它内容同宽 */
-.content-width {
-  max-width: 800px;    /* 根据你其他板块的文字宽度，调整这个值 */
-  margin: 20px auto;
-}
-
-/* 保持 TRAVELING 标题和其它标题左对齐 */
-
-
-/* 照片 Modal 内的图片样式 */
-#cityGalleryBody img {
-  max-width: 90%;
-  margin: 10px;
-}
-
-#post-content h2 {
-  border-top: 1px solid #ccc;
-  padding-top: 0.5em;
-  margin-top: 1em;
-}
-
-/* 字体渲染优化，特别是 Safari */
-body {
-  -webkit-font-smoothing: antialiased; /* Safari */
-  -moz-osx-font-smoothing: grayscale;  /* macOS Firefox */
-  text-rendering: optimizeLegibility;
-}
-
-/* ===== 字体统一修正版（跨浏览器优化） ===== */
-
-/* === 一级标题（如 PUBLICATIONS、AWARDS） === */
-section header h2,
-.section-title {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: 0.3px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* === 二级标题（Markdown ##） === */
-section .main-body h3 {
-  font-family: "Mulish", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  font-weight: 500;
-  font-size: 1.2rem;
-  margin-top: 1.3em;
-  margin-bottom: 0.6em;
-  color: #222;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* === 正文统一（除 contact） === */
-section:not(#contact) .main-body {
-  font-family: "Mulish", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  font-size: 1.15rem;
-  font-weight: 500;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-/* 正文内部文字元素 */
-section:not(#contact) .main-body p,
-section:not(#contact) .main-body li,
-section:not(#contact) .main-body span,
-section:not(#contact) .main-body a {
-  font-family: inherit !important;
-  font-weight: 500;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-/* === 英文名 === */
-.en-name {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  font-weight: 700;
-  font-size: 2rem;
-  -webkit-font-smoothing: antialiased;
-}
-
-

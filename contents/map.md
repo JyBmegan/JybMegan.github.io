@@ -1,14 +1,5 @@
 Upload ing...Too many resorts for me to arrange :)  
 
-Maybe Guess which pictures were photoed by:  
-
-1) Osmo Pocket 3 (Dajiang)  
-
-2) Canon Camera (and parameter)  
-
-3) mobile phone  
-
-
 <!-- contents/map.md -->
 <div class="content-width">
   <!-- 返回全国地图按钮 -->
