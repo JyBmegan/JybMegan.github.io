@@ -13,7 +13,7 @@
     --text-muted: #6c757d;      
     --title-color: #111111;     
     --link-color: #495057;
-    --link-hover: #0d6efd;
+    --link-hover: #1c4c6d;
     --border-color: #eaeaea;
     --input-bg: #ffffff;        
     --card-bg: #ffffff;         
@@ -191,7 +191,7 @@ body .main-body strong, body b {
     font-family: var(--font-body);
 }
 .contact-form button:hover {
-    background-color: #0b5ed7;
+    background-color: #1c4c6d;
 }
 
 /* =========================================
@@ -608,4 +608,47 @@ article p, article li {
 /* 3. 鼠标悬停时完全亮起 */
 [data-theme='dark'] .sidebar-map-container:hover > * {
     opacity: 1 !important;
+}
+
+/* 1. 全局样式 (白天模式) */
+#home-post-list .btn,
+#home-post-list .btn-primary,
+.read-more-btn {
+    background-color: transparent !important;
+    color: #1c4c6d !important;
+    border: 1.5px solid #1c4c6d !important;
+    border-radius: 20px !important;
+    padding: 4px 18px !important;
+    font-size: 0.8rem !important;
+    transition: all 0.3s ease !important;
+}
+
+#home-post-list .btn:hover,
+.read-more-btn:hover {
+    background-color: #1c4c6d !important;
+    color: #ffffff !important;
+    border: 1.5px solid #ffffff !important;
+    border-radius: 20px !important;
+    padding: 4px 18px !important;
+    font-size: 0.8rem !important;
+    transition: all 0.3s ease !important;
+}
+
+/* 🌟 强力提权：锁定夜间模式下的 Read More 按钮 */
+[data-theme='dark'] #home-post-list .btn,
+[data-theme='dark'] #home-post-list .btn-primary,
+[data-theme='dark'] .read-more-btn {
+    background-color: transparent !important;
+    /* 强制改为白色或浅灰色，在 #151e2f 背景下才清晰 */
+    color: #eeeeef !important; 
+    border: 1.5px solid #eeeeef !important; 
+    border-radius: 20px !important;
+}
+
+/* 夜间模式悬停：反转为白底蓝字 */
+[data-theme='dark'] #home-post-list .btn:hover,
+[data-theme='dark'] .read-more-btn:hover {
+    background-color: #eeeeef !important;
+    color: #151e2f !important; /* 回到你的背景深蓝色 */
+    box-shadow: 0 0 10px rgba(248, 249, 250, 0.3) !important;
 }

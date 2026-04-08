@@ -187,6 +187,11 @@ const provincesWithPhotos = Array.from(
   new Set(Object.keys(imageCounts).map(k => k.split('-')[1]))
 ).map(py => Object.keys(provMap).find(name => provMap[name] === py));
 
+const citiesWithPhotos = Object.keys(imageCounts).map(key => {
+    const code = key.split('-')[0];
+    return cityMap[code] || code; // 如果在映射表里找不到，就兜底显示 code
+});
+
 // 初始化地图
 function initMap() {
   const dom = document.getElementById('map-container');
@@ -203,6 +208,7 @@ function initMap() {
   });
 
   loadChina();
+  initStats();
 }
 
 // 加载全国并高亮
@@ -210,18 +216,31 @@ function loadChina() {
   currentMode = 'china';
   document.getElementById('backChinaBtn').style.display = 'none';
 
-  fetch('map/china.json')
+fetch('map/china.json')
     .then(r => r.json())
     .then(geo => {
       echarts.registerMap('china', geo);
       chart.setOption({
-        tooltip: { trigger:'item' },
+        tooltip: { 
+          trigger:'item',
+          formatter: function(params) {
+            const pinyin = provMap[params.name];
+            // 计算该省份下所有城市的照片总数
+            const total = Object.keys(imageCounts)
+              .filter(k => k.endsWith(`-${pinyin}`))
+              .reduce((sum, k) => sum + imageCounts[k], 0);
+            return `${params.name}<br/>Photos: ${total}`;
+          }
+        },
         series:[{
           type:'map', map:'china', roam:true,
-          emphasis:{ label:{show:true}, itemStyle:{areaColor:'#FFD700'} },
+          emphasis:{ label:{show:false}, itemStyle:{areaColor:'#8badc4'} },
+          selectedMode: {
+            itemStyle: {areaColor:'#405462'}
+          },
           data: provincesWithPhotos.map(name=>({
             name,
-            itemStyle: { areaColor:'#FF7F50', borderColor:'#fff' }
+            itemStyle: { areaColor:'#1c4c6d', borderColor:'#fff' }
           }))
         }]
       });
@@ -252,12 +271,21 @@ function loadProvince(name, pinyin) {
       // 3. 构造 ECharts 要用的 data：把城市中文名和样式打平
       const cityData = cityCodes.map(code => ({
         name: cityMap[code],
-        itemStyle: { areaColor: '#FF7F50', borderColor: '#fff' }
+        itemStyle: { areaColor: '#1c4c6d', borderColor: '#fff' }
       }));
 
       // 4. 更新图表：高亮这些城市
       chart.setOption({
-        tooltip: { trigger: 'item' },
+        tooltip: { 
+          trigger: 'item',
+          // 🌟 核心修复：显示具体城市的照片数
+          formatter: function(params) {
+            // 在映射表里根据名字找对应的 code-pinyin 键
+            const key = Object.keys(imageCounts).find(k => cityMap[k.split('-')[0]] === params.name && k.endsWith(`-${pinyin}`));
+            const count = imageCounts[key] || 0;
+            return `${params.name}<br/>Photos: ${count}`;
+          }
+        },
 	series: [{
   	type: 'map',
   	map: name,
@@ -267,9 +295,13 @@ function loadProvince(name, pinyin) {
 	zoom: 1.2,
   	roam: true,
   	emphasis: {
-    		label: { show: true },
-    		itemStyle: { areaColor: '#FFD700' }
+    		label: { show: false },
+    		itemStyle: { areaColor: '#6c9bc5' }
   	},
+    // selectedMode: 'single',
+    select:{
+      itemStyle:{areaColor: '#405462'}
+    },
   	data: cityData
 }]
 
@@ -298,3 +330,49 @@ function showCityPhotos(code, key) {
   }
   new bootstrap.Modal(document.getElementById('cityGalleryModal')).show();
 }
+
+// ---------------------------------------------
+// 悬浮统计面板逻辑
+// ---------------------------------------------
+
+// 将数据填入右下角悬浮窗
+function initStats() {
+    const provCountSpan = document.getElementById('stat-prov-count');
+    const cityCountSpan = document.getElementById('stat-city-count');
+    
+    if(provCountSpan) provCountSpan.innerText = provincesWithPhotos.length;
+    if(cityCountSpan) cityCountSpan.innerText = citiesWithPhotos.length;
+}
+
+// 渲染并显示详情 Modal (挂载到 window 以便 HTML 中的 onclick 能调用)
+window.showStatsModal = function() {
+    const body = document.getElementById('statsModalBody');
+    
+    // 生成 Badge 样式的 HTML 列表
+    const generateBadges = (arr) => arr.map(item => 
+        `<span style="background-color: #f0f4f8; color: #1c4c6d; padding: 6px 12px; 
+               border-radius: 20px; font-size: 0.9rem; border: 1px solid #cce0ef; 
+               box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            ${item}
+        </span>`
+    ).join('');
+
+    body.innerHTML = `
+        <h6 style="color:#1c4c6d; font-weight:bold; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 15px;">
+            Provinces (${provincesWithPhotos.length})
+        </h6>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom: 30px;">
+            ${generateBadges(provincesWithPhotos)}
+        </div>
+        
+        <h6 style="color:#1c4c6d; font-weight:bold; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 15px;">
+            Cities (${citiesWithPhotos.length})
+        </h6>
+        <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            ${generateBadges(citiesWithPhotos)}
+        </div>
+    `;
+    
+    // 弹出 Modal
+    new bootstrap.Modal(document.getElementById('statsModal')).show();
+};
