@@ -1,5 +1,5 @@
 <div class="content-width">
-  <button id="backChinaBtn" class="btn btn-secondary btn-sm mb-2" style="display: none;">
+  <button id="backChinaBtn" class="btn btn-secondary btn-sm mb-2" style="color: #ffffff; background: #1c4c6d; border: 1px solid #ffffff">
     ← Back
   </button>
 
