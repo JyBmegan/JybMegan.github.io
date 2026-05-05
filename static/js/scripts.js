@@ -78,6 +78,7 @@ const imageCounts = {
   '130300-hebei': 2,
   '130400-hebei': 6,
   '130600-hebei': 5,
+  '140200-shanxi': 13,
   '152500-neimenggu': 4,
   '220600-jilin': 6,
   '310115-shanghai': 4,
@@ -139,7 +140,8 @@ const provMap = {
 '湖南':'hunan',
 '澳门':'aomen',
 '香港':'xianggang',
-'天津':'tianjin'
+'天津':'tianjin',
+'山西':'shanxi'
 
 };
 
@@ -187,7 +189,8 @@ const cityMap = {
   '110112':'通州区',
   '120101':'和平区',
   '120105':'河北区',
-  '130400':'邯郸市'
+  '130400':'邯郸市',
+  '140200':'大同市'
 	
 	
 }
