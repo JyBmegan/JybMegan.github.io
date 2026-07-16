@@ -3,20 +3,26 @@
 // ——— 博客文章元数据 ———
 const posts = [
   {
-        slug: '2025-05-01-my-post',
-        title: 'New! HeartBridge for Inclusive Education!',
-        date: '2025-05-01',
-        thumb: 'static/assets/blog/2025-05-01-thumb.jpg',
-        excerpt: 'A super fun app that helps kids master their emotions with cool games and a safe place to connect with friends!'
+        slug: '2026-07-16-my-post',
+        title: 'How We Gamble with Neural Models and Multimodal Technologies? Personal Insights',
+        date: '2026-07-16',
+        thumb: 'static/assets/blog/2026-07-16-thumb.jpg',
+        excerpt: 'Thoughts on multimodal transfer prediction, neural data modeling, and the ambition of foundation models — a personal monologue on where the field is placing its bets.'
   },
-  			
   {
         slug: '2025-05-11-my-post',
         title: 'Congrats! HeartBrige Honored with Award!',
         date: '2025-05-11',
         thumb: 'static/assets/blog/2025-05-11-thumb.jpg',
         excerpt: 'From the stunning landscapes of Yunnan to the awards stage, we are absolutely thrilled to announce that HeartBridge has won first-level!'
-   }
+   },
+  {
+        slug: '2025-05-01-my-post',
+        title: 'New! HeartBridge for Inclusive Education!',
+        date: '2025-05-01',
+        thumb: 'static/assets/blog/2025-05-01-thumb.jpg',
+        excerpt: 'A super fun app that helps kids master their emotions with cool games and a safe place to connect with friends!'
+  }
   // 若有更多文章，再以逗号 , 添加一个对象
 ];
 
