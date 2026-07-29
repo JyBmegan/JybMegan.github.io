@@ -1,4 +1,4 @@
-Hello! I’m Jiayu Bao (包家瑜), an inquisitive undergrad with a passion for different fields of psychology (like Visual Cognition and Human-Computer Interaction). I thrive at the intersection of curiosity and creativity: whether it’s designing intuitive interfaces that enhance user experiences or strumming a new melody with generative music, I’m always exploring how small innovations can spark big ideas. Here’s a quick snapshot of what keeps me ticking:
+Hello! I'm Jiayu Bao, a first-year PhD student in the [Department of Neuroscience](https://www.cityu.edu.hk/neuro/) at [City University of Hong Kong (CityUHK)](https://www.cityu.edu.hk/), working in the [Human & Machine Memory Lab](https://qlulab.github.io/website/). I study how the brain encodes, stores, and retrieves memories, and how computational tools can help us make sense of it all. Outside the lab, you'll find me traveling with a camera, always on the lookout for a good story.
 
 ## Education
 
@@ -7,8 +7,8 @@ Hello! I’m Jiayu Bao (包家瑜), an inquisitive undergrad with a passion for 
 
 ## Internship
 
-* 2026, AI for Science Intern, [Neuroscience Foundation Model](https://braintoken.baai.ac.cn/), Frontier Exploration Department, [Beijing Academy of Artificial Intelligence (BAAI)](https://www.baai.ac.cn/zh-cn/)
+- 2026, AI for Science Intern, [Neuroscience Foundation Model](https://braintoken.baai.ac.cn/), Frontier Exploration Department, [Beijing Academy of Artificial Intelligence (BAAI)](https://www.baai.ac.cn/zh-cn/)
 
 ## Research Interests
 
-Memory, AI4s, Neuromorphic Computing, Visual Perception
+- Memory, Computational Neuroscience, Visual Perception

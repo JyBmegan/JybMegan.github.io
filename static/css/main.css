@@ -80,9 +80,8 @@ body section, body section[id], .bg-light, .main-body {
    3. 区块紧凑化 & 短横线分隔符 (高权重覆盖)
    ========================================= */
 body main section {
-    /* 【修改】：大幅缩减每个板块顶部的留白，从 2rem 降到 1rem */
-    padding-top: 1rem !important;    
-    padding-bottom: 0.5rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     margin-bottom: 0 !important;
     margin-top: 0 !important;
 }
@@ -90,11 +89,10 @@ body main section {
 body main section:not(#contact)::after {
     content: "";
     display: block;
-    width: 60px;            
-    height: 3px;            
+    width: 60px;
+    height: 3px;
     background-color: var(--border-color);
-    /* 【修改】：缩减短横线上下方的留白，让下一个板块紧紧贴上来 */
-    margin: 1.5rem auto 0 auto; 
+    margin: 1.5rem auto 2rem auto;  /* 上 1.5rem + 段落 margin-bottom 0.5rem = 下 2rem, 横线居中 */
     border-radius: 3px;
 }
 
@@ -131,6 +129,7 @@ body section .main-body h4 {
 }
 
 /* 正文美化 */
+body .main-body ul, body .main-body ol { list-style: disc; padding-left: 2rem; }
 body .main-body p, body .main-body li {
     font-family: var(--font-body) !important;
     font-size: 1rem !important;

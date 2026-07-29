@@ -74,7 +74,7 @@ const imageCounts = {
   '110108-beijing': 1,
   '110112-beijing': 1,
   '120101-tianjin': 5,
-  '120105-tianjin': 2,
+  '120105-tianjin': 1,
   '120116-tianjin': 8,
   '130300-hebei': 2,
   '130400-hebei': 6,
@@ -111,6 +111,10 @@ const imageCounts = {
   '530100-yunnan': 2,
   '530700-yunnan': 5,
   '532900-yunnan': 4,
+  '650100-xinjiang': 2,
+  '652300-xinjiang': 2,
+  '652700-xinjiang': 1,
+  '654000-xinjiang': 6,
   '810005-xianggang': 2,
   '810010-xianggang': 1,
   '820002-aomen': 2
@@ -142,7 +146,8 @@ const provMap = {
 '澳门':'aomen',
 '香港':'xianggang',
 '天津':'tianjin',
-'山西':'shanxi'
+'山西':'shanxi',
+'新疆':'xinjiang'
 
 };
 
@@ -192,7 +197,11 @@ const cityMap = {
   '120105':'河北区',
   '120116':'滨海新区',
   '130400':'邯郸市',
-  '140200':'大同市'
+  '140200':'大同市',
+  '650100':'乌鲁木齐市',
+  '652300':'昌吉回族自治州',
+  '652700':'博尔塔拉蒙古自治州',
+  '654000':'伊犁哈萨克自治州'
 	
 	
 }
