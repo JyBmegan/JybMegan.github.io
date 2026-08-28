@@ -1,4 +1,4 @@
-Hello! I'm Jiayu Bao, a first-year PhD student in the [Department of Neuroscience](https://www.cityu.edu.hk/neuro/) at [City University of Hong Kong (CityUHK)](https://www.cityu.edu.hk/), working in the [Human & Machine Memory Lab](https://qlulab.github.io/website/). I study how the brain encodes, stores, and retrieves memories, and how computational tools can help us make sense of it all. Outside the lab, you'll find me traveling with a camera, always on the lookout for a good story.
+Hello! I'm Jiayu Bao, a first-year PhD student in the [Department of Neuroscience](https://www.cityu.edu.hk/neuro/) at [City University of Hong Kong (CityUHK)](https://www.cityu.edu.hk/), working in the [Human & Machine Memory Lab](https://qlulab.github.io/website/). I study how the brain encodes, stores, and retrieves memories, and how computational tools can help us make sense of it all. 
 
 ## Education
 
